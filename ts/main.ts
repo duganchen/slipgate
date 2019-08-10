@@ -1,5 +1,5 @@
 import {app, BrowserWindow, ipcMain} from 'electron';
-import {promises as fs, PathLike, watchFile, access} from 'fs'
+import {promises as fs} from 'fs'
 
 import fetch from 'node-fetch';
 
