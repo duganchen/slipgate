@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/duganchen/slipgate#readme",
   "devDependencies": {
+    "@types/node-fetch": "^2.5.0",
     "electron": "6.0.0",
     "sass": "^1.22.9",
     "typescript": "^3.5.3"

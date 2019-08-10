@@ -1,6 +1,9 @@
-import {app, BrowserWindow} from 'electron';
+import {app, BrowserWindow, ipcMain} from 'electron';
+import {promises as fs, PathLike, watchFile, access} from 'fs'
 
-let win: BrowserWindow;
+import fetch from 'node-fetch';
+
+let win: BrowserWindow | null;
 
 function createWindow() {
     win = new BrowserWindow({
@@ -9,7 +12,7 @@ function createWindow() {
         }
     });
 
-    win.loadFile(`${__dirname}/../main.html`);
+    win.loadFile(`${__dirname}/../index.html`);
 
     win.on('closed', () => {
         win = null;
@@ -18,7 +21,58 @@ function createWindow() {
     win.webContents.openDevTools();
 };
 
-app.on('ready', createWindow);
+app.on('ready', async () => {
+    createWindow();
+
+    const dbFile = `${app.getPath('cache')}/slipgate/database.xml`
+    const dbUrl = 'https://www.quaddicted.com/reviews/quaddicted_database.xml'
+    const dateFile =  `${app.getPath('cache')}/slipgate/date.txt`
+
+    await fs.mkdir(`${app.getPath('cache')}/slipgate`, {recursive: true})
+
+    const headerResponse = await fetch(
+        'https://www.quaddicted.com/reviews/quaddicted_database.xml',
+        {'method': 'HEAD'}
+    );
+    const upstreamModified = new Date(headerResponse.headers.get('date') || "")
+
+    let needFetch = false;
+
+    try
+    {
+        await fs.access(dateFile)
+    }
+    catch
+    {
+        needFetch = true
+    }
+
+    try
+    {
+        fs.access(dbFile)
+    }
+    catch
+    {
+        needFetch = true    
+    }
+
+    const lastModified = new Date(await fs.readFile(dateFile).toString())
+
+    if (lastModified < upstreamModified) {
+        needFetch = true
+    }
+
+    if (needFetch) {
+        console.log('updated database')
+        const response = await fetch(dbUrl)
+        const text = await response.text()
+        await fs.writeFile(dbFile, text) 
+        await fs.writeFile(dateFile, headerResponse.headers.get('date'))
+    } else {
+        console.log('no db update needed')
+    }
+
+});
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
@@ -30,4 +84,5 @@ app.on('activate', () => {
     if (win === null) {
         createWindow();
     }
-})
+});
+
