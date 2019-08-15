@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { promises as fs } from 'fs'
 import * as xml2js from 'xml2js'
+import * as util from 'util'
 
 import fetch from 'node-fetch';
 
@@ -68,7 +69,10 @@ app.on('ready', async () => {
 
     const parser = new xml2js.Parser()
     const buffer = await fs.readFile(dbFile)
-    console.log(await buffer.toString())
+    const xml = await buffer.toString()
+    parser.parseString(xml, (err: any, data: any) => {
+        console.log(util.inspect(data, false, null))
+    })
 });
 
 app.on('window-all-closed', () => {

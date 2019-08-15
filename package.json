@@ -33,8 +33,9 @@
     "typescript": "^3.5.3"
   },
   "dependencies": {
-    "vue": "^2.6.10",
     "node-fetch": "^2.6.0",
-    "xml2js": "^0.4.19"
+    "vue": "^2.6.10",
+    "xml2js": "^0.4.19",
+    "xml2js-es6-promise": "^1.1.1"
   }
 }
