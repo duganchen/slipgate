@@ -1,6 +1,5 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { promises as fs } from 'fs'
-import * as xml2js from 'xml2js'
 import * as parser from 'fast-xml-parser'
 
 import fetch from 'node-fetch';
@@ -67,14 +66,8 @@ app.on('ready', async () => {
     await fs.writeFile(dbFile, text)
     await fs.writeFile(dateFile, headerResponse.headers.get('date'))
 
-    // const parser = new xml2js.Parser()
     const buffer = await fs.readFile(dbFile)
     const xml = await buffer.toString()
-    /*
-    parser.parseString(xml, (err: any, data: any) => {
-        console.dir(data['files']['file'][0])
-    })
-    */
     console.log(parser.parse(xml)['files']['file'][0])
 });
 
