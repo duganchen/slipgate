@@ -71,7 +71,7 @@ app.on('ready', async () => {
     const buffer = await fs.readFile(dbFile)
     const xml = await buffer.toString()
     parser.parseString(xml, (err: any, data: any) => {
-        console.log(util.inspect(data, false, null))
+        console.dir(data['files']['file'][0])
     })
 });
 
