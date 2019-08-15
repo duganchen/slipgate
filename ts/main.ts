@@ -1,5 +1,5 @@
-import {app, BrowserWindow, ipcMain} from 'electron';
-import {promises as fs} from 'fs'
+import { app, BrowserWindow, ipcMain } from 'electron';
+import { promises as fs } from 'fs'
 
 import fetch from 'node-fetch';
 
@@ -26,20 +26,19 @@ app.on('ready', async () => {
 
     const dbFile = `${app.getPath('cache')}/slipgate/database.xml`
     const dbUrl = 'https://www.quaddicted.com/reviews/quaddicted_database.xml'
-    const dateFile =  `${app.getPath('cache')}/slipgate/date.txt`
+    const dateFile = `${app.getPath('cache')}/slipgate/date.txt`
 
-    await fs.mkdir(`${app.getPath('cache')}/slipgate`, {recursive: true})
+    await fs.mkdir(`${app.getPath('cache')}/slipgate`, { recursive: true })
 
     const headerResponse = await fetch(
         'https://www.quaddicted.com/reviews/quaddicted_database.xml',
-        {'method': 'HEAD'}
+        { 'method': 'HEAD' }
     );
     const upstreamModified = new Date(headerResponse.headers.get('date') || "")
 
     let needFetch = false;
 
-    try
-    {
+    try {
         await fs.access(dateFile)
     }
     catch
@@ -47,13 +46,12 @@ app.on('ready', async () => {
         needFetch = true
     }
 
-    try
-    {
+    try {
         fs.access(dbFile)
     }
     catch
     {
-        needFetch = true    
+        needFetch = true
     }
 
     const lastModified = new Date(await fs.readFile(dateFile).toString())
@@ -62,15 +60,11 @@ app.on('ready', async () => {
         needFetch = true
     }
 
-    if (needFetch) {
-        console.log('updated database')
-        const response = await fetch(dbUrl)
-        const text = await response.text()
-        await fs.writeFile(dbFile, text) 
-        await fs.writeFile(dateFile, headerResponse.headers.get('date'))
-    } else {
-        console.log('no db update needed')
-    }
+    const response = await fetch(dbUrl)
+    const text = await response.text()
+    await fs.writeFile(dbFile, text)
+    await fs.writeFile(dateFile, headerResponse.headers.get('date'))
+
 
 });
 

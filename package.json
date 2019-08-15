@@ -4,10 +4,12 @@
   "description": "Frontend to browse, install and play single-player Quake 1 maps from Quaddicted",
   "main": "js/main.js",
   "scripts": {
-    "build:scss": "sass scss:sass",
+    "build:scss": "sass scss:css",
     "build:ts": "tsc",
     "build": "npm run build:scss && npm run build:ts",
-    "start": "electron js/main.js"
+    "start": "electron js/main.js",
+    "debug": "electron --inspect js/main.js",
+    "debug-brk": "electron --inspect-brk js/main.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +27,7 @@
   "homepage": "https://github.com/duganchen/slipgate#readme",
   "devDependencies": {
     "@types/node-fetch": "^2.5.0",
+    "@types/xml2js": "^0.4.4",
     "electron": "6.0.0",
     "sass": "^1.22.9",
     "typescript": "^3.5.3"
