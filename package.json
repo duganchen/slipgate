@@ -34,8 +34,6 @@
   "dependencies": {
     "fast-xml-parser": "^3.12.20",
     "node-fetch": "^2.6.0",
-    "vue": "^2.6.10",
-    "xml-js": "^1.6.11",
-    "xml2js-es6-promise": "^1.1.1"
+    "vue": "^2.6.10"
   }
 }
