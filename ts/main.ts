@@ -1,8 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
-import { promises as fs } from 'fs'
+import { promises as fs, readFile } from 'fs'
 import * as parser from 'fast-xml-parser'
-
-import fetch from 'node-fetch';
+import fetch from 'node-fetch'
 
 let win: BrowserWindow | null;
 
@@ -25,70 +24,73 @@ function createWindow() {
 app.on('ready', async () => {
     createWindow();
 
-    const dbFile = `${app.getPath('cache')}/slipgate/database.xml`
+    const dbFile = `${app.getPath('cache')}/slipgate/database.json`
+
     const dbUrl = 'https://www.quaddicted.com/reviews/quaddicted_database.xml'
     const dateFile = `${app.getPath('cache')}/slipgate/date.txt`
 
     await fs.mkdir(`${app.getPath('cache')}/slipgate`, { recursive: true })
 
+    let lastModified: Date
+
+    try {
+        const lastStampPromise = await fs.readFile(dateFile)
+        lastModified = new Date(await lastStampPromise.toString())
+    } catch {
+        lastModified = new Date(0)
+    }
+
     const headerResponse = await fetch(
         'https://www.quaddicted.com/reviews/quaddicted_database.xml',
         { 'method': 'HEAD' }
     );
-    const upstreamModified = new Date(headerResponse.headers.get('date') || "")
+    const dateHeader: string = headerResponse.headers.get('date') || ""
+    const upstreamModified = new Date(dateHeader)
 
-    let needFetch = false;
+    await fs.writeFile(dateFile, dateHeader)
 
+    let dbExists: boolean = true
     try {
-        await fs.access(dateFile)
+        await fs.access(dbFile)
+    } catch {
+        dbExists = false
     }
-    catch
+
+    if ((lastModified < upstreamModified) || !dbExists) {
+        const response = await fetch(dbUrl)
+        const xml = await response.text()
+        await fs.writeFile(dbFile, xml)
+    }
+
+    console.log(dbFile)
+    const xmlPromise = await fs.readFile(dbFile)
+    const xml = await xmlPromise.toString()
+    const dbObj = parser.parse(xml, { ignoreAttributes: false })
+    const maps = dbObj['files']['file']
+
+    /* A sample map looks like this:
+
     {
-        needFetch = true
-    }
-
-    try {
-        fs.access(dbFile)
-    }
-    catch
-    {
-        needFetch = true
-    }
-
-    const lastModified = new Date(await fs.readFile(dateFile).toString())
-
-    if (lastModified < upstreamModified) {
-        needFetch = true
-    }
-
-    const response = await fetch(dbUrl)
-    const text = await response.text()
-    await fs.writeFile(dbFile, text)
-    await fs.writeFile(dateFile, headerResponse.headers.get('date'))
-
-    const buffer = await fs.readFile(dbFile)
-    const xml = await buffer.toString()
-    /*
-    One map looks like this:
-    {
-        author: 'sock',
-        title: 'One Thousand Cuts',
-        md5sum: '8e03d6c9202136c89d99707ab97a1020',
-        size: 10396,
-        date: '15.08.14',
-        description: "Expanded standalone version of sock's map from <a " +
-          'href="func_mapjam2.html">Func Map Jam 2</a>: a medium-sized, ' +
-          'IKblue-themed, partially ruined temple with two individual ' +
-          'routes for replayablility. It comes with a set of ' +
-          'medieval-style item boxes.',
-        techinfo: {
-          zipbasedir: '1000cuts/',
-          commandline: '-game 1000cuts',
-          startmap: 'start'
-        }
-      }
-      */
-    console.log(parser.parse(xml)['files']['file'][0])
+  '@_id': '1000cuts1a',
+  '@_type': '2',
+  '@_rating': '5',
+  author: 'sock',
+  title: 'One Thousand Cuts',
+  md5sum: '8e03d6c9202136c89d99707ab97a1020',
+  size: 10396,
+  date: '15.08.14',
+  description: "Expanded standalone version of sock's map from <a " +
+    'href="func_mapjam2.html">Func Map Jam 2</a>: a medium-sized, ' +
+    'IKblue-themed, partially ruined temple with two individual ' +
+    'routes for replayablility. It comes with a set of ' +
+    'medieval-style item boxes.',
+  techinfo: {
+    zipbasedir: '1000cuts/',
+    commandline: '-game 1000cuts',
+    startmap: 'start'
+  }
+}
+*/
 });
 
 app.on('window-all-closed', () => {
