@@ -62,7 +62,6 @@ app.on('ready', async () => {
         await fs.writeFile(dbFile, xml)
     }
 
-    console.log(dbFile)
     const xmlPromise = await fs.readFile(dbFile)
     const xml = await xmlPromise.toString()
     const dbObj = parser.parse(xml, { ignoreAttributes: false })
