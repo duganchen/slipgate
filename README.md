@@ -1,44 +1,26 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Slipgate
 
-## Available Scripts
+This is will be used to download Quake maps from [Quaddicted](https://www.quaddicted.com/). Watch this space!
 
-In the project directory, you can run:
+## Setting Up
 
-### `npm start`
+Just wanted to write a bit about how this project was bootstrapped. It basically just combines the create-react-app with the Typescript version of the Electron quickstart, setting them up with separate source directories and separate Typescript configurations:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+    npx create-react-app --template=typescript slipgate
+    git clone https://github.com/electron/electron-quick-start-typescript.git
+    mkdir -p slipgate/electron
+    cp electron-quick-start-typescript/src/*.ts slipgate/electron
+    cp electron-quick-start-typescript/tsconfig.json slipgate/electron.json
+    cd slipgate
+    npm install --save-dev electron
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+And then I:
 
-### `npm test`
+* merge the "scripts" section of the Electron quickstart's package.json, editing the script names so that they begin with "-electron" and the script commands so that they use "-p electron.json"
+* Edit electron.json to output to public and not dist
+* edit main.ts to load http://localhost:3000 (idea from [here](https://medium.com/@brockhoff/using-electron-with-react-the-basics-e93f9761f86f))
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+To run it, you do:
+1. `npm run start`
+2. wait for the React app to load in the browser
+3. `npm run electron-start`
