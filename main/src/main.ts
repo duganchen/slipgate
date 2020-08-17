@@ -2,6 +2,7 @@ import { app, BrowserWindow } from "electron";
 import * as path from "path";
 import { ipcMain } from "electron";
 import * as isDev from "electron-is-dev";
+import * as Graph from "graphology";
 
 import { promises as fs, readFile } from "fs";
 import fetch from "node-fetch";

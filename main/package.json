@@ -29,6 +29,7 @@
   "dependencies": {
     "electron-is-dev": "^1.2.0",
     "fast-xml-parser": "^3.17.4",
+    "graphology": "^0.17.1",
     "node-fetch": "^2.6.0"
   }
 }
