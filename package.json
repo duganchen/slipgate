@@ -1,0 +1,10 @@
+{
+  "name": "slipgate",
+  "version": "1.0.0",
+  "description": "Quake map downloader",
+  "main": "index.js",
+  "repository": "https://github.com/duganchen/slipgate",
+  "author": "Dugan Chen <thedoogster@gmail.com>",
+  "license": "MIT",
+  "private": true
+}
