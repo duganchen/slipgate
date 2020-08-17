@@ -3,6 +3,48 @@ import * as path from "path";
 import { ipcMain } from "electron";
 import * as isDev from "electron-is-dev";
 
+import { promises as fs, readFile } from "fs";
+import fetch from "node-fetch";
+
+const downloadDB = async () => {
+  const dbFile = `${app.getPath("cache")}/slipgate/quaddicted_database.xml`;
+  const dbUrl = "https://www.quaddicted.com/reviews/quaddicted_database.xml";
+  const dateFile = `${app.getPath("cache")}/slipgate/date.txt`;
+
+  await fs.mkdir(`${app.getPath("cache")}/slipgate`, { recursive: true });
+
+  let lastModified: Date;
+
+  try {
+    const lastStampPromise = await fs.readFile(dateFile);
+    lastModified = new Date(await lastStampPromise.toString());
+  } catch {
+    lastModified = new Date(0);
+  }
+
+  const headerResponse = await fetch(
+    "https://www.quaddicted.com/reviews/quaddicted_database.xml",
+    { method: "HEAD" }
+  );
+  const dateHeader: string = headerResponse.headers.get("date") || "";
+  const upstreamModified = new Date(dateHeader);
+
+  console.log("Writing date to " + dateFile);
+  await fs.writeFile(dateFile, dateHeader);
+
+  let dbExists: boolean = true;
+  try {
+    await fs.access(dbFile);
+  } catch {
+    dbExists = false;
+  }
+
+  if (lastModified < upstreamModified || !dbExists) {
+    const response = await fetch(dbUrl);
+    const xml = await response.text();
+    await fs.writeFile(dbFile, xml);
+  }
+};
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -31,6 +73,8 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.on("ready", () => {
   createWindow();
+
+  downloadDB();
 
   app.on("activate", function () {
     // On macOS it's common to re-create a window in the app when the
