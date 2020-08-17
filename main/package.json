@@ -20,12 +20,15 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
+    "@types/node-fetch": "^2.5.7",
     "@types/testing-library__dom": "^7.5.0",
     "electron": "^9.0.4",
     "tslint": "^6.1.2",
     "typescript": "^3.9.5"
   },
   "dependencies": {
-    "electron-is-dev": "^1.2.0"
+    "electron-is-dev": "^1.2.0",
+    "fast-xml-parser": "^3.17.4",
+    "node-fetch": "^2.6.0"
   }
 }
