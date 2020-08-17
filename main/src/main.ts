@@ -16,7 +16,7 @@ const downloadDB = async () => {
 
   try {
     const lastStampPromise = await fs.readFile(dateFile);
-    lastModified = new Date(await lastStampPromise.toString());
+    lastModified = new Date(lastStampPromise.toString());
   } catch {
     lastModified = new Date(0);
   }
@@ -31,7 +31,7 @@ const downloadDB = async () => {
   console.log("Writing date to " + dateFile);
   await fs.writeFile(dateFile, dateHeader);
 
-  let dbExists: boolean = true;
+  let dbExists = true;
   try {
     await fs.access(dbFile);
   } catch {
