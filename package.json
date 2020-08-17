@@ -3,8 +3,19 @@
   "version": "1.0.0",
   "description": "Quake map downloader",
   "main": "index.js",
+  "scripts": {
+    "start": "nf start",
+    "build": "scripts/build.sh"
+  },
   "repository": "https://github.com/duganchen/slipgate",
-  "author": "Dugan Chen <thedoogster@gmail.com>",
+  "author": "Dugan Chen",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "workspaces": [
+    "main",
+    "renderer"
+  ],
+  "devDependencies": {
+    "foreman": "^3.0.1"
+  }
 }

@@ -1,5 +1,7 @@
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
+import { ipcMain } from "electron";
+import * as isDev from "electron-is-dev";
 
 function createWindow() {
   // Create the browser window.
@@ -7,12 +9,18 @@ function createWindow() {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
+      nodeIntegration: true,
     },
     width: 800,
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, "../index.html"));
+  if (isDev) {
+    mainWindow.loadURL("http://localhost:5000");
+  } else {
+    console.log(path.join(__dirname, "index.html"));
+    mainWindow.loadFile(path.join(__dirname, "index.html"));
+  }
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
