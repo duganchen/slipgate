@@ -24,8 +24,7 @@
     "@types/node-fetch": "^2.5.7",
     "electron": "^9.0.4",
     "tslint": "^6.1.2",
-    "typescript": "^3.9.5",
-    "watchman": "^1.0.0"
+    "typescript": "^3.9.5"
   },
   "dependencies": {
     "@types/testing-library__dom": "^7.5.0",
