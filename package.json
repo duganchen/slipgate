@@ -1,20 +1,19 @@
 {
-  "name": "slipgate",
+  "name": "electron-react-ts-boilerplate",
   "version": "1.0.0",
-  "description": "Quake map downloader",
+  "description": "Electron/Typescript/React Boilerplate",
   "main": "index.js",
-  "scripts": {
-    "start": "nf start",
-    "build": "scripts/build.sh"
-  },
-  "repository": "https://github.com/duganchen/slipgate",
-  "author": "Dugan Chen",
+  "author": "Dugan Chen <thedoogster@gmail.com>",
   "license": "MIT",
   "private": true,
   "workspaces": [
     "main",
     "renderer"
   ],
+  "scripts": {
+    "start": "nf start",
+    "build": "scripts/build.sh"
+  },
   "devDependencies": {
     "foreman": "^3.0.1"
   }

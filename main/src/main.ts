@@ -57,7 +57,7 @@ function createWindow() {
 
   // and load the index.html of the app.
   if (isDev) {
-    mainWindow.loadURL("http://localhost:5000");
+    mainWindow.loadURL("http://localhost:3000");
   } else {
     console.log(path.join(__dirname, "index.html"));
     mainWindow.loadFile(path.join(__dirname, "index.html"));
