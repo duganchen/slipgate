@@ -1,11 +1,15 @@
-import { app, BrowserWindow } from "electron";
+import { app, ipcMain, session, BrowserWindow } from "electron";
 import * as path from "path";
 import * as isDev from "electron-is-dev";
 
 import { promises as fs } from "fs";
 import fetch from "node-fetch";
+import * as parser from "fast-xml-parser";
+import { config } from "dotenv";
 
-const downloadDB = async () => {
+config();
+
+ipcMain.on("fetch-maps", async (event, arg) => {
   const dbFile = `${app.getPath("cache")}/slipgate/quaddicted_database.xml`;
   const dbUrl = "https://www.quaddicted.com/reviews/quaddicted_database.xml";
   const dateFile = `${app.getPath("cache")}/slipgate/date.txt`;
@@ -43,7 +47,15 @@ const downloadDB = async () => {
     const xml = await response.text();
     await fs.writeFile(dbFile, xml);
   }
-};
+
+  const xmlPromise = await fs.readFile(dbFile);
+  const xml = xmlPromise.toString();
+  const dbObj = parser.parse(xml, { ignoreAttributes: false });
+  console.log(dbObj["files"]["file"]);
+
+  event.reply("maps", dbObj["files"]["file"]);
+});
+
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -59,21 +71,24 @@ function createWindow() {
   if (isDev) {
     mainWindow.loadURL("http://localhost:3000");
   } else {
-    console.log(path.join(__dirname, "index.html"));
     mainWindow.loadFile(path.join(__dirname, "index.html"));
   }
 
   // Open the DevTools.
+
   mainWindow.webContents.openDevTools();
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on("ready", () => {
-  createWindow();
+app.on("ready", async () => {
+  // Use this to load the React Developer Tools.
+  if (process.env.DEVTOOLS) {
+    await session.defaultSession.loadExtension(process.env.DEVTOOLS);
+  }
 
-  downloadDB();
+  createWindow();
 
   app.on("activate", function () {
     // On macOS it's common to re-create a window in the app when the

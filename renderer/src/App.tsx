@@ -1,25 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import "./App.css";
+import { Event } from "electron";
+
+import { Grid } from "@material-ui/core";
+
+const { ipcRenderer } = window.require("electron");
 
 function App() {
+  useEffect(() => {
+    ipcRenderer.send("fetch-maps");
+    ipcRenderer.on("maps", (event: Event, arg) => {
+      console.log("Received maps");
+      console.log(arg);
+      console.log("That's the arg");
+    });
+  });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Grid container direction="row" alignItems="stretch">
+      <Grid item xs={6}>
+        <p>This is column 1</p>
+      </Grid>
+      <Grid item xs={6}>
+        <p>This is column 2</p>
+      </Grid>
+    </Grid>
   );
 }
 
