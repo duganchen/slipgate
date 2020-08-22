@@ -31,10 +31,13 @@ interface QuakeMap {
   date: Date | string;
   id: string;
   techinfo?: TechInfo | string;
+  title: string;
 
   zipbasedir?: string;
   commandline?: string;
   startmap?: Array<string>;
+
+  label?: string;
 }
 
 interface RequirementsList {
@@ -43,6 +46,10 @@ interface RequirementsList {
 
 interface MapIndex {
   [id: string]: QuakeMap;
+}
+
+interface LabelMap {
+  [label: string]: string;
 }
 
 ipcMain.on("fetch-maps", async (event, arg) => {
@@ -96,12 +103,14 @@ ipcMain.on("fetch-maps", async (event, arg) => {
   // This is an adjacency list.
   let requirements: RequirementsList = {};
   let mapIndex: MapIndex = {};
+  let labelMap: LabelMap = {};
 
   dbObj["files"]["file"].forEach((quakeMap: QuakeMap) => {
     console.log(quakeMap);
     quakeMap.size = parseInt(quakeMap.size as string, 10);
     quakeMap.date = moment(quakeMap.date, "DD.MM.YY").toDate();
     quakeMap.rating = "⭐".repeat(parseInt(quakeMap.rating as string, 10));
+    quakeMap.label = `${quakeMap["id"]}.zip - ${quakeMap.title}`;
 
     if ("techinfo" in quakeMap && typeof quakeMap["techinfo"] !== "string") {
       if ("zipbasedir" in quakeMap["techinfo"]) {
@@ -132,12 +141,14 @@ ipcMain.on("fetch-maps", async (event, arg) => {
     }
 
     mapIndex[quakeMap["id"]] = quakeMap;
+    labelMap[quakeMap.label] = quakeMap.id;
   });
 
   // event.reply("maps", dbObj["files"]["file"]);
   console.log("Writing maps");
   await fs.writeFile("mapIndex.json", JSON.stringify(mapIndex));
   await fs.writeFile("requirements.json", JSON.stringify(requirements));
+  await fs.writeFile("labels.json", JSON.stringify(labelMap));
 });
 
 function createWindow() {
