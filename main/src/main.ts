@@ -41,6 +41,10 @@ interface RequirementsList {
   [id: string]: Array<string>;
 }
 
+interface MapIndex {
+  [id: string]: QuakeMap;
+}
+
 ipcMain.on("fetch-maps", async (event, arg) => {
   const dbFile = `${app.getPath("cache")}/slipgate/quaddicted_database.xml`;
   const dbUrl = "https://www.quaddicted.com/reviews/quaddicted_database.xml";
@@ -91,6 +95,7 @@ ipcMain.on("fetch-maps", async (event, arg) => {
 
   // This is an adjacency list.
   let requirements: RequirementsList = {};
+  let mapIndex: MapIndex = {};
 
   dbObj["files"]["file"].forEach((quakeMap: QuakeMap) => {
     console.log(quakeMap);
@@ -125,11 +130,13 @@ ipcMain.on("fetch-maps", async (event, arg) => {
 
       delete quakeMap["techinfo"];
     }
+
+    mapIndex[quakeMap["id"]] = quakeMap;
   });
 
   // event.reply("maps", dbObj["files"]["file"]);
   console.log("Writing maps");
-  await fs.writeFile("maps.json", JSON.stringify(dbObj["files"]["file"]));
+  await fs.writeFile("mapIndex.json", JSON.stringify(mapIndex));
   await fs.writeFile("requirements.json", JSON.stringify(requirements));
 });
 
