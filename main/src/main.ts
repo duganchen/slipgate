@@ -121,8 +121,6 @@ ipcMain.on("fetch-maps", async (event, arg) => {
             quakeMap["techinfo"]["requirements"]["file"]["id"],
           ];
         }
-      } else {
-        requirements[quakeMap["id"]] = [];
       }
 
       delete quakeMap["techinfo"];
@@ -132,6 +130,7 @@ ipcMain.on("fetch-maps", async (event, arg) => {
   // event.reply("maps", dbObj["files"]["file"]);
   console.log("Writing maps");
   await fs.writeFile("maps.json", JSON.stringify(dbObj["files"]["file"]));
+  await fs.writeFile("requirements.json", JSON.stringify(requirements));
 });
 
 function createWindow() {
