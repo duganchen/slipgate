@@ -94,9 +94,9 @@ ipcMain.on("fetch-maps", async (event, arg) => {
 
   dbObj["files"]["file"].forEach((quakeMap: QuakeMap) => {
     console.log(quakeMap);
-    quakeMap.rating = parseInt(quakeMap.rating as string, 10);
     quakeMap.size = parseInt(quakeMap.size as string, 10);
     quakeMap.date = moment(quakeMap.date, "DD.MM.YY").toDate();
+    quakeMap.rating = "⭐".repeat(parseInt(quakeMap.rating as string, 10));
 
     if ("techinfo" in quakeMap && typeof quakeMap["techinfo"] !== "string") {
       if ("zipbasedir" in quakeMap["techinfo"]) {
