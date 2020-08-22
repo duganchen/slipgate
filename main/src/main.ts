@@ -7,7 +7,39 @@ import fetch from "node-fetch";
 import * as parser from "fast-xml-parser";
 import { config } from "dotenv";
 
+import * as moment from "moment";
+
 config();
+
+interface Requirement {
+  id: string;
+}
+
+interface Requirements {
+  file: Array<Requirement> | Requirement;
+}
+
+interface TechInfo {
+  zipbasedir?: string;
+  commandline?: string;
+  requirements?: Requirements;
+}
+
+interface QuakeMap {
+  rating: string | number;
+  size: string | number;
+  date: Date | string;
+  id: string;
+  techinfo?: TechInfo | string;
+
+  zipbasedir?: string;
+  commandline?: string;
+  startmap?: Array<string>;
+}
+
+interface RequirementsList {
+  [id: string]: Array<string>;
+}
 
 ipcMain.on("fetch-maps", async (event, arg) => {
   const dbFile = `${app.getPath("cache")}/slipgate/quaddicted_database.xml`;
@@ -50,10 +82,56 @@ ipcMain.on("fetch-maps", async (event, arg) => {
 
   const xmlPromise = await fs.readFile(dbFile);
   const xml = xmlPromise.toString();
-  const dbObj = parser.parse(xml, { ignoreAttributes: false });
-  console.log(dbObj["files"]["file"]);
+  const dbObj = parser.parse(xml, {
+    ignoreAttributes: false,
+    attributeNamePrefix: "",
+    parseNodeValue: false,
+    parseAttributeValue: false,
+  });
 
-  event.reply("maps", dbObj["files"]["file"]);
+  // This is an adjacency list.
+  let requirements: RequirementsList = {};
+
+  dbObj["files"]["file"].forEach((quakeMap: QuakeMap) => {
+    console.log(quakeMap);
+    quakeMap.rating = parseInt(quakeMap.rating as string, 10);
+    quakeMap.size = parseInt(quakeMap.size as string, 10);
+    quakeMap.date = moment(quakeMap.date, "DD.MM.YY").toDate();
+
+    if ("techinfo" in quakeMap && typeof quakeMap["techinfo"] !== "string") {
+      if ("zipbasedir" in quakeMap["techinfo"]) {
+        quakeMap["zipbasedir"] = quakeMap["techinfo"]["zipbasedir"];
+      }
+
+      if ("commandline" in quakeMap["techinfo"]) {
+        quakeMap["commandline"] = quakeMap["techinfo"]["commandline"];
+      }
+      if ("startmap" in quakeMap["techinfo"]) {
+        quakeMap["startmap"] = quakeMap["techinfo"]["startmap"];
+      }
+
+      if ("requirements" in quakeMap["techinfo"]) {
+        console.log(quakeMap["techinfo"]["requirements"]);
+        if (Array.isArray(quakeMap["techinfo"]["requirements"]["file"])) {
+          requirements[quakeMap["id"]] = quakeMap["techinfo"]["requirements"][
+            "file"
+          ].map((m) => m.id);
+        } else {
+          requirements[quakeMap["id"]] = [
+            quakeMap["techinfo"]["requirements"]["file"]["id"],
+          ];
+        }
+      } else {
+        requirements[quakeMap["id"]] = [];
+      }
+
+      delete quakeMap["techinfo"];
+    }
+  });
+
+  // event.reply("maps", dbObj["files"]["file"]);
+  console.log("Writing maps");
+  await fs.writeFile("maps.json", JSON.stringify(dbObj["files"]["file"]));
 });
 
 function createWindow() {
