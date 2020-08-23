@@ -13,5 +13,5 @@
   "scripts": {
     "start": "nf start",
     "build": "scripts/build.sh"
-  },
+  }
 }
