@@ -14,7 +14,4 @@
     "start": "nf start",
     "build": "scripts/build.sh"
   },
-  "devDependencies": {
-    "foreman": "^3.0.1"
-  }
 }
