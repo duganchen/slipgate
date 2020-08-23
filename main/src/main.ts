@@ -1,4 +1,4 @@
-import { app, ipcMain, session, BrowserWindow } from "electron";
+import { app, ipcMain, session, BrowserWindow, Menu, MenuItem } from "electron";
 import * as path from "path";
 import * as isDev from "electron-is-dev";
 
@@ -106,54 +106,54 @@ ipcMain.on("fetch-maps", async (event, arg) => {
   let mapIndex: MapIndex = {};
   let labelMap: LabelMap = {};
 
-  dbObj["files"]["file"].forEach((quakeMap: QuakeMap) => {
-    console.log(quakeMap);
-    quakeMap.size = parseInt(quakeMap.size as string, 10);
-    quakeMap.date = moment(quakeMap.date, "DD.MM.YY").toDate();
-    quakeMap.rating = "⭐".repeat(parseInt(quakeMap.rating as string, 10));
-    if (quakeMap.type === "1") {
-      quakeMap.type = "Single BSP File(s)";
-    } else {
-      quakeMap.type = "Partial conversion";
-    }
+  // dbObj["files"]["file"].forEach((quakeMap: QuakeMap) => {
+  //   console.log(quakeMap);
+  //   quakeMap.size = parseInt(quakeMap.size as string, 10);
+  //   quakeMap.date = moment(quakeMap.date, "DD.MM.YY").toDate();
+  //   quakeMap.rating = "⭐".repeat(parseInt(quakeMap.rating as string, 10));
+  //   if (quakeMap.type === "1") {
+  //     quakeMap.type = "Single BSP File(s)";
+  //   } else {
+  //     quakeMap.type = "Partial conversion";
+  //   }
 
-    if ("techinfo" in quakeMap && typeof quakeMap["techinfo"] !== "string") {
-      if ("zipbasedir" in quakeMap["techinfo"]) {
-        quakeMap["zipbasedir"] = quakeMap["techinfo"]["zipbasedir"];
-      }
+  //   if ("techinfo" in quakeMap && typeof quakeMap["techinfo"] !== "string") {
+  //     if ("zipbasedir" in quakeMap["techinfo"]) {
+  //       quakeMap["zipbasedir"] = quakeMap["techinfo"]["zipbasedir"];
+  //     }
 
-      if ("commandline" in quakeMap["techinfo"]) {
-        quakeMap["commandline"] = quakeMap["techinfo"]["commandline"];
-      }
-      if ("startmap" in quakeMap["techinfo"]) {
-        quakeMap["startmap"] = quakeMap["techinfo"]["startmap"];
-      }
+  //     if ("commandline" in quakeMap["techinfo"]) {
+  //       quakeMap["commandline"] = quakeMap["techinfo"]["commandline"];
+  //     }
+  //     if ("startmap" in quakeMap["techinfo"]) {
+  //       quakeMap["startmap"] = quakeMap["techinfo"]["startmap"];
+  //     }
 
-      if ("requirements" in quakeMap["techinfo"]) {
-        console.log(quakeMap["techinfo"]["requirements"]);
-        if (Array.isArray(quakeMap["techinfo"]["requirements"]["file"])) {
-          requirements[quakeMap["id"]] = quakeMap["techinfo"]["requirements"][
-            "file"
-          ].map((m) => m.id);
-        } else {
-          requirements[quakeMap["id"]] = [
-            quakeMap["techinfo"]["requirements"]["file"]["id"],
-          ];
-        }
-      }
+  //     if ("requirements" in quakeMap["techinfo"]) {
+  //       console.log(quakeMap["techinfo"]["requirements"]);
+  //       if (Array.isArray(quakeMap["techinfo"]["requirements"]["file"])) {
+  //         requirements[quakeMap["id"]] = quakeMap["techinfo"]["requirements"][
+  //           "file"
+  //         ].map((m) => m.id);
+  //       } else {
+  //         requirements[quakeMap["id"]] = [
+  //           quakeMap["techinfo"]["requirements"]["file"]["id"],
+  //         ];
+  //       }
+  //     }
 
-      delete quakeMap["techinfo"];
-    }
+  //     delete quakeMap["techinfo"];
+  //   }
 
-    mapIndex[quakeMap["id"]] = quakeMap;
-    labelMap[quakeMap.label] = quakeMap.id;
-  });
+  //   mapIndex[quakeMap["id"]] = quakeMap;
+  //   labelMap[quakeMap.label] = quakeMap.id;
+  // });
 
   // event.reply("maps", dbObj["files"]["file"]);
-  console.log("Writing maps");
-  await fs.writeFile("mapIndex.json", JSON.stringify(mapIndex));
-  await fs.writeFile("requirements.json", JSON.stringify(requirements));
-  await fs.writeFile("labels.json", JSON.stringify(labelMap));
+  // console.log("Writing maps");
+  // await fs.writeFile("mapIndex.json", JSON.stringify(mapIndex));
+  // await fs.writeFile("requirements.json", JSON.stringify(requirements));
+  // await fs.writeFile("labels.json", JSON.stringify(labelMap));
 });
 
 function createWindow() {
@@ -169,7 +169,14 @@ function createWindow() {
 
   // and load the index.html of the app.
   if (isDev) {
-    mainWindow.loadURL("http://localhost:3000");
+    const menu = Menu.getApplicationMenu() as Menu;
+    menu.append(new MenuItem({ label: "Restart", click: () => app.exit(3) }));
+    Menu.setApplicationMenu(menu);
+
+    const reactPort =
+      process.env.REACT_PORT !== undefined ? process.env.REACT_PORT : "3000";
+
+    mainWindow.loadURL(`http://localhost:${reactPort}/`);
   } else {
     mainWindow.loadFile(path.join(__dirname, "index.html"));
   }
