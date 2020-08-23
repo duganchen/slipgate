@@ -14,7 +14,7 @@ test("confirm jest is working", async () => {
   );
   const xmlData = xmlPromise.toString();
   const mapData = parseDB(xmlData);
-  // console.log(mapData);
 
-  await fs.writeFile("maps.json", JSON.stringify(mapData));
+  // Randomly check one.
+  expect(mapData["warpspasm"]["requirements"][0]).toBe("quoth");
 });

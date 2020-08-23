@@ -30,10 +30,6 @@ const parseDB = (xmlData: string) => {
       commandline: parsedMap.techinfo.commandline,
     };
 
-    if (parsedMap.id === "2fact2ns") {
-      console.log(parsedMap);
-    }
-
     if (parsedMap.techinfo.hasOwnProperty("startmap")) {
       if (Array.isArray(parsedMap.techinfo.startmap)) {
         maps[parsedMap.id].startmap = parsedMap.techinfo.startmap;
