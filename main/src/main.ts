@@ -154,6 +154,7 @@ ipcMain.on("fetch-maps", async (event, arg) => {
   // await fs.writeFile("mapIndex.json", JSON.stringify(mapIndex));
   // await fs.writeFile("requirements.json", JSON.stringify(requirements));
   // await fs.writeFile("labels.json", JSON.stringify(labelMap));
+  //
 });
 
 function createWindow() {

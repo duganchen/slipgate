@@ -4,11 +4,11 @@ This is to be a frontend to download Quake maps from [Quaddicted](https://www.qu
 
 ## To Contributers
 
-To test this, do:
+To test this, build the main process (in VSCode) with Cmd-Shift-b. Then do:
 
     yarn start
 
-Use the "Restart" menu item to restart and pick up code changes to the main process, or "File->Quit" to finish.
+Changes to the renderer process get reloaded automatically. To pick up changes to the main process, enter Cmd-Shift-b to compile it, then choose Slipgate's "Restart" menu item.
 
 Use the "Attach to Chrome" Run Configuration to debug.
 
