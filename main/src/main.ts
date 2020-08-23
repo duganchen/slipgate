@@ -32,6 +32,7 @@ interface QuakeMap {
   id: string;
   techinfo?: TechInfo | string;
   title: string;
+  type: string;
 
   zipbasedir?: string;
   commandline?: string;
@@ -110,7 +111,11 @@ ipcMain.on("fetch-maps", async (event, arg) => {
     quakeMap.size = parseInt(quakeMap.size as string, 10);
     quakeMap.date = moment(quakeMap.date, "DD.MM.YY").toDate();
     quakeMap.rating = "⭐".repeat(parseInt(quakeMap.rating as string, 10));
-    quakeMap.label = `${quakeMap["id"]}.zip - ${quakeMap.title}`;
+    if (quakeMap.type === "1") {
+      quakeMap.type = "Single BSP File(s)";
+    } else {
+      quakeMap.type = "Partial conversion";
+    }
 
     if ("techinfo" in quakeMap && typeof quakeMap["techinfo"] !== "string") {
       if ("zipbasedir" in quakeMap["techinfo"]) {

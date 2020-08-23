@@ -1,0 +1,20 @@
+import { parseDB } from "./dbParser";
+import { promises as fs } from "fs";
+import * as path from "path";
+
+console.log(__dirname);
+
+test("confirm jest is working", async () => {
+  const xmlPromise = await fs.readFile(
+    path.join(
+      path.dirname(path.dirname(__dirname)),
+      "reference",
+      "quaddicted_database.xml"
+    )
+  );
+  const xmlData = xmlPromise.toString();
+  const mapData = parseDB(xmlData);
+  // console.log(mapData);
+
+  await fs.writeFile("maps.json", JSON.stringify(mapData));
+});

@@ -7,7 +7,8 @@
     "watch": "tsc -w",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "start": "npm run build && electron ./dist/main.js",
-    "debug": "npm run build && electron ./dist/main.js -remote-debugging-port=9222"
+    "debug": "npm run build && electron ./dist/main.js -remote-debugging-port=9222",
+    "test": "jest"
   },
   "repository": "https://github.com/electron/electron-quick-start-typescript",
   "keywords": [
@@ -21,16 +22,20 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
+    "@types/jest": "^26.0.10",
     "@types/moment": "^2.13.0",
+    "@types/node": "12",
     "@types/node-fetch": "^2.5.7",
-    "electron": "^9.0.4",
     "eslint": "^7.7.0",
+    "jest": "^26.4.2",
+    "ts-jest": "^26.2.0",
     "tslint": "^6.1.2",
     "typescript": "^4.0.2"
   },
   "dependencies": {
     "@types/testing-library__dom": "^7.5.0",
     "dotenv": "^8.2.0",
+    "electron": "^9.2.1",
     "electron-is-dev": "^1.2.0",
     "fast-xml-parser": "^3.17.4",
     "moment": "^2.27.0",
