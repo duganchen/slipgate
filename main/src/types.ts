@@ -47,4 +47,4 @@ interface Maps {
   [id: string]: QuakeMap;
 }
 
-export { ParsedMap, ParsedRequirements, Maps };
+export { ParsedMap, ParsedRequirements, Maps, QuakeMap };

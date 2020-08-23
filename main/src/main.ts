@@ -8,6 +8,8 @@ import * as parser from "fast-xml-parser";
 import { config } from "dotenv";
 
 import * as moment from "moment";
+import { parseDB } from "./dbParser";
+import { allowedNodeEnvironmentFlags } from "process";
 
 config();
 
@@ -54,11 +56,11 @@ interface LabelMap {
 }
 
 ipcMain.on("fetch-maps", async (event, arg) => {
-  const dbFile = `${app.getPath("cache")}/slipgate/quaddicted_database.xml`;
+  await fs.mkdir(`${app.getPath("cache")}/slipgate`, { recursive: true });
+
+  const dbFile = `${app.getPath("cache")}/slipgate/maps.json`;
   const dbUrl = "https://www.quaddicted.com/reviews/quaddicted_database.xml";
   const dateFile = `${app.getPath("cache")}/slipgate/date.txt`;
-
-  await fs.mkdir(`${app.getPath("cache")}/slipgate`, { recursive: true });
 
   let lastModified: Date;
 
@@ -69,15 +71,9 @@ ipcMain.on("fetch-maps", async (event, arg) => {
     lastModified = new Date(0);
   }
 
-  const headerResponse = await fetch(
-    "https://www.quaddicted.com/reviews/quaddicted_database.xml",
-    { method: "HEAD" }
-  );
-  const dateHeader: string = headerResponse.headers.get("date") || "";
-  const upstreamModified = new Date(dateHeader);
-
-  console.log("Writing date to " + dateFile);
-  await fs.writeFile(dateFile, dateHeader);
+  // https://stackoverflow.com/a/63089060/240515
+  const days = 1000606024;
+  let daysOld = Math.floor((Number(Date.now()) - Number(lastModified)) / days);
 
   let dbExists = true;
   try {
@@ -86,75 +82,31 @@ ipcMain.on("fetch-maps", async (event, arg) => {
     dbExists = false;
   }
 
-  if (lastModified < upstreamModified || !dbExists) {
-    const response = await fetch(dbUrl);
-    const xml = await response.text();
-    await fs.writeFile(dbFile, xml);
+  if (dbExists && daysOld >= 1) {
+    const headerResponse = await fetch(
+      "https://www.quaddicted.com/reviews/quaddicted_database.xml",
+      { method: "HEAD" }
+    );
+
+    const dateHeader: string = headerResponse.headers.get("date") || "";
+    lastModified = new Date(dateHeader);
+    await fs.writeFile(dateFile, dateHeader);
+    daysOld = Math.floor(Number(Date.now()) - Number(lastModified)) / days;
   }
 
-  const xmlPromise = await fs.readFile(dbFile);
-  const xml = xmlPromise.toString();
-  const dbObj = parser.parse(xml, {
-    ignoreAttributes: false,
-    attributeNamePrefix: "",
-    parseNodeValue: false,
-    parseAttributeValue: false,
-  });
+  if (dbExists && !daysOld) {
+    const mapsJSON = await fs.readFile(dbFile);
+    const mapData = JSON.parse(mapsJSON.toString());
+    event.reply("maps", mapData);
+    return;
+  }
 
-  // This is an adjacency list.
-  let requirements: RequirementsList = {};
-  let mapIndex: MapIndex = {};
-  let labelMap: LabelMap = {};
+  const response = await fetch(dbUrl);
+  const xml = await response.text();
+  const maps = parseDB(xml);
 
-  // dbObj["files"]["file"].forEach((quakeMap: QuakeMap) => {
-  //   console.log(quakeMap);
-  //   quakeMap.size = parseInt(quakeMap.size as string, 10);
-  //   quakeMap.date = moment(quakeMap.date, "DD.MM.YY").toDate();
-  //   quakeMap.rating = "⭐".repeat(parseInt(quakeMap.rating as string, 10));
-  //   if (quakeMap.type === "1") {
-  //     quakeMap.type = "Single BSP File(s)";
-  //   } else {
-  //     quakeMap.type = "Partial conversion";
-  //   }
-
-  //   if ("techinfo" in quakeMap && typeof quakeMap["techinfo"] !== "string") {
-  //     if ("zipbasedir" in quakeMap["techinfo"]) {
-  //       quakeMap["zipbasedir"] = quakeMap["techinfo"]["zipbasedir"];
-  //     }
-
-  //     if ("commandline" in quakeMap["techinfo"]) {
-  //       quakeMap["commandline"] = quakeMap["techinfo"]["commandline"];
-  //     }
-  //     if ("startmap" in quakeMap["techinfo"]) {
-  //       quakeMap["startmap"] = quakeMap["techinfo"]["startmap"];
-  //     }
-
-  //     if ("requirements" in quakeMap["techinfo"]) {
-  //       console.log(quakeMap["techinfo"]["requirements"]);
-  //       if (Array.isArray(quakeMap["techinfo"]["requirements"]["file"])) {
-  //         requirements[quakeMap["id"]] = quakeMap["techinfo"]["requirements"][
-  //           "file"
-  //         ].map((m) => m.id);
-  //       } else {
-  //         requirements[quakeMap["id"]] = [
-  //           quakeMap["techinfo"]["requirements"]["file"]["id"],
-  //         ];
-  //       }
-  //     }
-
-  //     delete quakeMap["techinfo"];
-  //   }
-
-  //   mapIndex[quakeMap["id"]] = quakeMap;
-  //   labelMap[quakeMap.label] = quakeMap.id;
-  // });
-
-  // event.reply("maps", dbObj["files"]["file"]);
-  // console.log("Writing maps");
-  // await fs.writeFile("mapIndex.json", JSON.stringify(mapIndex));
-  // await fs.writeFile("requirements.json", JSON.stringify(requirements));
-  // await fs.writeFile("labels.json", JSON.stringify(labelMap));
-  //
+  await fs.writeFile(dbFile, JSON.stringify(maps));
+  event.reply("maps", maps);
 });
 
 function createWindow() {
@@ -171,7 +123,15 @@ function createWindow() {
   // and load the index.html of the app.
   if (isDev) {
     const menu = Menu.getApplicationMenu() as Menu;
-    menu.append(new MenuItem({ label: "Restart", click: () => app.exit(3) }));
+    menu.append(
+      new MenuItem({
+        label: "Restart",
+        click: () => {
+          console.log("We use the click handler");
+          app.exit(3);
+        },
+      })
+    );
     Menu.setApplicationMenu(menu);
 
     const reactPort =
