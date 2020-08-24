@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-// import ListItemIcon from '@material-ui/core/ListItemIcon';
-// import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Grid from '@material-ui/core/Grid';
 import ListItemText from '@material-ui/core/ListItemText';
+import Rating from '@material-ui/lab/Rating';
 import { renderAuthors } from './helpers';
 import "./MapList.css";
 
@@ -20,15 +20,20 @@ export const MapList = () => {
 
     ipcRenderer.on("maps", (event: Event, arg: Maps) => {
       setMaps(arg);
-      console.log(arg);
     });
-  }, []);
+  }, []); // Adding [] ensures that the load only happens once, on first render
 
   return <List className="MapList">
     {Object.values(maps).map((m: QuakeMap) =>
-      <ListItem key={m.id}>
-        { console.log(m) }
-        <ListItemText primary={m.title} secondary={renderAuthors(m.authors)} />
+      <ListItem key={m.id} alignItems="flex-start" button>
+        <Grid container>
+          <Grid item xs>
+            <ListItemText primary={m.title} secondary={renderAuthors(m.authors)} />
+          </Grid>
+          <Grid item className="MapList__Item-Secondary">
+            <Rating value={m.rating} readOnly size="small" />
+          </Grid>
+        </Grid>
       </ListItem>
     )}
   </List>;
