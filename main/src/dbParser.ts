@@ -16,7 +16,7 @@ const parseDB = (xmlData: string) => {
       id: parsedMap.id,
       type:
         parsedMap.type === "1" ? "Single BSP File(s)" : "Partial conversion",
-      rating: "⭐".repeat(parseInt(parsedMap.rating as string, 10)),
+      rating: parseInt(parsedMap.rating as string, 10),
       label: `${parsedMap.id}.zip - ${parsedMap.title}`,
       md5sum: parsedMap.md5sum,
       title: parsedMap.title,

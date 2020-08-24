@@ -30,7 +30,7 @@ interface QuakeMap {
   id: string;
   type: string;
   label: string;
-  rating: string;
+  rating: number;
   author: string;
   authors: string[];
   title: string;
