@@ -26,6 +26,7 @@ const parseDB = (xmlData: string) => {
       startmap: [],
       requirements: [],
       author: parsedMap.author,
+      authors: parsedMap.author.split(',').map((s) => s.trim()),
       zipbasedir: parsedMap.techinfo.zipbasedir,
       commandline: parsedMap.techinfo.commandline,
     };

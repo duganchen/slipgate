@@ -32,6 +32,7 @@ interface QuakeMap {
   label: string;
   rating: string;
   author: string;
+  authors: string[];
   title: string;
   md5sum: string;
   size: number;
