@@ -12,7 +12,11 @@ import { Maps, QuakeMap } from "../../../../main/src/types";
 
 const { ipcRenderer } = window.require("electron");
 
-export const MapList = () => {
+interface MapListProps {
+  detailsSetter: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const MapList = (props: MapListProps) => {
   const [maps, setMaps] = useState<Maps>({});
 
   useEffect(() => {
@@ -26,7 +30,14 @@ export const MapList = () => {
   return (
     <List className="MapList">
       {Object.values(maps).map((m: QuakeMap) => (
-        <ListItem key={m.id} alignItems="flex-start" button>
+        <ListItem
+          key={m.id}
+          alignItems="flex-start"
+          button
+          onClick={() => {
+            props.detailsSetter(m.description);
+          }}
+        >
           <Grid
             container
             onClick={() => {
