@@ -1,0 +1,71 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": {
+        "$ref": "#/definitions/QuakeMap"
+    },
+    "definitions": {
+        "QuakeMap": {
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "authors": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "commandline": {
+                    "type": "string"
+                },
+                "date": {
+                    "description": "Enables basic storage and retrieval of dates and times.",
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "md5sum": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "number"
+                },
+                "requirements": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "size": {
+                    "type": "number"
+                },
+                "startmap": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "zipbasedir": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "type": "object"
+}
+

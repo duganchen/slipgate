@@ -11,6 +11,8 @@ import * as moment from "moment";
 import { parseDB } from "./dbParser";
 import { allowedNodeEnvironmentFlags } from "process";
 
+import * as Ajv from "ajv";
+
 config();
 
 interface Requirement {
@@ -94,11 +96,21 @@ ipcMain.on("fetch-maps", async (event, arg) => {
     daysOld = Math.floor(Number(Date.now()) - Number(lastModified)) / days;
   }
 
+  const schemaJSON = await fs.readFile("../reference/maps.schema");
+  const schema = JSON.parse(schemaJSON.toString());
+  const ajv = new Ajv();
+  const validate = ajv.compile(schema);
+  let valid;
+
   if (dbExists && !daysOld) {
     const mapsJSON = await fs.readFile(dbFile);
     const mapData = JSON.parse(mapsJSON.toString());
-    event.reply("maps", mapData);
-    return;
+    valid = validate(mapData);
+
+    if (valid) {
+      event.reply("maps", mapData);
+      return;
+    }
   }
 
   const response = await fetch(dbUrl);
