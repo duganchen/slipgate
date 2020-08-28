@@ -15,48 +15,6 @@ import * as Ajv from "ajv";
 
 config();
 
-interface Requirement {
-  id: string;
-}
-
-interface Requirements {
-  file: Array<Requirement> | Requirement;
-}
-
-interface TechInfo {
-  zipbasedir?: string;
-  commandline?: string;
-  requirements?: Requirements;
-}
-
-interface QuakeMap {
-  rating: string | number;
-  size: string | number;
-  date: Date | string;
-  id: string;
-  techinfo?: TechInfo | string;
-  title: string;
-  type: string;
-
-  zipbasedir?: string;
-  commandline?: string;
-  startmap?: Array<string>;
-
-  label?: string;
-}
-
-interface RequirementsList {
-  [id: string]: Array<string>;
-}
-
-interface MapIndex {
-  [id: string]: QuakeMap;
-}
-
-interface LabelMap {
-  [label: string]: string;
-}
-
 ipcMain.on("fetch-maps", async (event, arg) => {
   await fs.mkdir(`${app.getPath("cache")}/slipgate`, { recursive: true });
 
@@ -85,6 +43,7 @@ ipcMain.on("fetch-maps", async (event, arg) => {
   }
 
   if (dbExists && daysOld >= 1) {
+    console.log("Checking head");
     const headerResponse = await fetch(
       "https://www.quaddicted.com/reviews/quaddicted_database.xml",
       { method: "HEAD" }
@@ -110,6 +69,8 @@ ipcMain.on("fetch-maps", async (event, arg) => {
     if (valid) {
       event.reply("maps", mapData);
       return;
+    } else {
+      console.log(validate.errors);
     }
   }
 

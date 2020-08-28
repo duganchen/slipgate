@@ -36,7 +36,10 @@
                     "type": "string"
                 },
                 "rating": {
-                    "type": "number"
+                    "type": [
+                        "null",
+                        "number"
+                    ]
                 },
                 "requirements": {
                     "items": {
