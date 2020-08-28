@@ -1,4 +1,4 @@
-import { parseDB } from "./dbParser";
+import { parseDB } from "../src/dbParser";
 import { promises as fs } from "fs";
 import * as path from "path";
 

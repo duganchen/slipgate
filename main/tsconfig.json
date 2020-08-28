@@ -13,6 +13,5 @@
   },
   "include": [
     "src/**/*"
-  ],
-  "exclude": ["src/dbParser.test.ts"]
+  ]
 }
