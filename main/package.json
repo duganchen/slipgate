@@ -38,7 +38,7 @@
     "@types/testing-library__dom": "^7.5.0",
     "ajv": "^6.12.4",
     "dotenv": "^8.2.0",
-    "electron": "10",
+    "electron": "^10.1.0",
     "electron-is-dev": "^1.2.0",
     "fast-xml-parser": "^3.17.4",
     "moment": "^2.27.0",
