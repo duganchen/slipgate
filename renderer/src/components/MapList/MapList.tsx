@@ -6,6 +6,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Rating from "@material-ui/lab/Rating";
 import { renderAuthors } from "./helpers";
 import "./MapList.css";
+import { Virtuoso } from "react-virtuoso";
 
 import { Event } from "electron";
 import { Maps, QuakeMap } from "../../../../main/src/types";
@@ -27,35 +28,42 @@ export const MapList = (props: MapListProps) => {
     });
   }, []); // Adding [] ensures that the load only happens once, on first render
 
+  const mapValues = Object.values(maps);
+  console.log(mapValues.length);
+
   return (
-    <List className="MapList">
-      {Object.values(maps).map((m: QuakeMap) => (
-        <ListItem
-          key={m.id}
-          alignItems="flex-start"
-          button
-          onClick={() => {
-            props.detailsSetter(m.description);
-          }}
-        >
-          <Grid
-            container
+    <Virtuoso
+      totalCount={mapValues.length}
+      item={(index) => {
+        const map = mapValues[index];
+        return (
+          <ListItem
+            key={map.id}
+            alignItems="flex-start"
+            button
             onClick={() => {
-              console.log(m.description);
+              props.detailsSetter(map.description);
             }}
           >
-            <Grid item xs>
-              <ListItemText
-                primary={m.title}
-                secondary={renderAuthors(m.authors)}
-              />
+            <Grid
+              container
+              onClick={() => {
+                console.log(map.description);
+              }}
+            >
+              <Grid item xs>
+                <ListItemText
+                  primary={map.title}
+                  secondary={renderAuthors(map.authors)}
+                />
+              </Grid>
+              <Grid item className="MapList__Item-Secondary">
+                <Rating value={map.rating} readOnly size="small" />
+              </Grid>
             </Grid>
-            <Grid item className="MapList__Item-Secondary">
-              <Rating value={m.rating} readOnly size="small" />
-            </Grid>
-          </Grid>
-        </ListItem>
-      ))}
-    </List>
+          </ListItem>
+        );
+      }}
+    />
   );
 };
