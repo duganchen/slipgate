@@ -3,6 +3,7 @@ import MapList from "./components/MapList";
 import { AppBar, Drawer, IconButton, Toolbar, Grid } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import "./App.css";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 
 function App() {
   const [mapDetails, setMapDetails] = useState("");
@@ -23,13 +24,20 @@ function App() {
         </Toolbar>
       </AppBar>
       <Drawer
-        anchor="right"
+        anchor="left"
         open={drawerIsOpen}
         onClose={() => {
           console.log("closing");
           setDrawerIsOpen(false);
         }}
       >
+        <IconButton
+          onClick={() => {
+            setDrawerIsOpen(false);
+          }}
+        >
+          <ChevronLeftIcon />
+        </IconButton>
         <p>This is in the drawer</p>
       </Drawer>
       <Grid container direction="row" alignItems="stretch" className="AppGrid">
