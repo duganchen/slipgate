@@ -26,10 +26,9 @@ export const MapList = (props: MapListProps) => {
     ipcRenderer.on("maps", (event: Event, arg: Maps) => {
       setMaps(arg);
     });
-  }, []); // Adding [] ensures that the load only happens once, on first render
+  }, [maps]);
 
   const mapValues = Object.values(maps);
-  console.log(mapValues.length);
 
   return (
     <Virtuoso
@@ -45,12 +44,7 @@ export const MapList = (props: MapListProps) => {
               props.detailsSetter(map.description);
             }}
           >
-            <Grid
-              container
-              onClick={() => {
-                console.log(map.description);
-              }}
-            >
+            <Grid container>
               <Grid item xs>
                 <ListItemText
                   primary={map.title}
