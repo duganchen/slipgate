@@ -4,7 +4,7 @@ import { Box, Container } from "@material-ui/core";
 export const Packages = () => {
   return (
     <Box display="flex" overflow="hidden">
-      <Box overflow="auto">
+      <Box overflow="auto" flexBasis={0} flexGrow={1}>
         <Container>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -156,7 +156,7 @@ export const Packages = () => {
         </Container>
       </Box>
 
-      <Box overflow="auto">
+      <Box overflow="auto" flexBasis={0} flexGrow={2}>
         <Container>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
