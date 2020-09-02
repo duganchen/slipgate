@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Checkbox,
@@ -15,32 +15,56 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Packages from "../Packages";
 
 export const Slipgate = () => {
-  const [anchorEl, setAnchorEl] = React.useState<EventTarget | null>(null);
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
-  const open = Boolean(anchorEl);
   return (
     <>
       <AppBar>
         <Toolbar>
           <IconButton
             onClick={(event) => {
-              setAnchorEl(event.target);
+              setAnchorEl(event.currentTarget);
             }}
           >
             <MenuIcon />
-            <Menu open={open}>
-              <MenuItem>Configure</MenuItem>
-              <MenuItem>Reload Database</MenuItem>
-              <MenuItem>Exit</MenuItem>
-            </Menu>
-            <Input type="search" placeholder="filter" />
-            <FormControlLabel control={<Switch />} label="Installed Only" />
-            <FormControlLabel control={<Checkbox />} label="Sort by rating" />
-            <FormControlLabel
-              control={<Checkbox />}
-              label="Sort by release date"
-            />
           </IconButton>
+          <Menu
+            open={Boolean(anchorEl)}
+            anchorEl={anchorEl}
+            keepMounted
+            onClose={() => {
+              setAnchorEl(null);
+            }}
+          >
+            <MenuItem
+              onClick={() => {
+                setAnchorEl(null);
+              }}
+            >
+              Configure
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                setAnchorEl(null);
+              }}
+            >
+              Reload Database
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                setAnchorEl(null);
+              }}
+            >
+              Exit
+            </MenuItem>
+          </Menu>
+          <Input type="search" placeholder="filter" />
+          <FormControlLabel control={<Switch />} label="Installed Only" />
+          <FormControlLabel control={<Checkbox />} label="Sort by rating" />
+          <FormControlLabel
+            control={<Checkbox />}
+            label="Sort by release date"
+          />
         </Toolbar>
       </AppBar>
       <Box flexDirection="column" display="flex" height="100%">
