@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Container } from "@material-ui/core";
+import PackageInteraction from "../PackageInteraction";
 
 export const Packages = () => {
   return (
@@ -157,20 +158,7 @@ export const Packages = () => {
       </Box>
 
       <Box overflow="auto" flexBasis={0} flexGrow={2}>
-        <Container>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Enim sed
-            faucibus turpis in eu. Consequat id porta nibh venenatis. Gravida
-            arcu ac tortor dignissim convallis aenean et tortor. Augue eget arcu
-            dictum varius duis at consectetur lorem. Amet consectetur adipiscing
-            elit pellentesque habitant. Nunc sed velit dignissim sodales ut eu.
-            Tincidunt id aliquet risus feugiat in ante metus dictum at. Sit amet
-            dictum sit amet justo donec. Amet consectetur adipiscing elit ut
-            aliquam purus. Sollicitudin aliquam ultrices sagittis orci a
-            scelerisque.
-          </p>
-        </Container>
+        <PackageInteraction />
       </Box>
     </Box>
   );
