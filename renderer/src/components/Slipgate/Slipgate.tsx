@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { AppBar, Box, Tabs, Tab, Toolbar } from "@material-ui/core";
+import Packages from "../Packages";
+import Configuration from "../Configuration";
 
 export const Slipgate = () => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -20,13 +22,8 @@ export const Slipgate = () => {
       </AppBar>
       <Box flexDirection="column" display="flex" height="100%">
         <Toolbar />
-        <Box flexGrow={1} display="flex" overflow="hidden">
-          <Box overflow="auto">
-            <p>Left column</p>
-          </Box>
-          <Box overflow="auto">
-            <p>Right Column</p>
-          </Box>
+        <Box flexGrow={1} overflow="hidden">
+          {tabIndex ? <Configuration /> : <Packages />}
         </Box>
       </Box>
     </>
