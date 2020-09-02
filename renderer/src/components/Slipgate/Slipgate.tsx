@@ -22,9 +22,7 @@ export const Slipgate = () => {
       </AppBar>
       <Box flexDirection="column" display="flex" height="100%">
         <Toolbar />
-        <Box flexGrow={1} overflow="hidden">
-          {tabIndex ? <Configuration /> : <Packages />}
-        </Box>
+        {tabIndex ? <Configuration /> : <Packages />}
       </Box>
     </>
   );
