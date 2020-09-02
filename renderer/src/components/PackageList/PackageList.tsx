@@ -1,10 +1,10 @@
 import React from "react";
 import { Container } from "@material-ui/core";
 
-export const Configuration = () => {
+export const PackageList = () => {
   return (
     <Container>
-      <p>Configuration</p>
+      <p>PackageList</p>
     </Container>
   );
 };
