@@ -1,89 +1,34 @@
-import React, { useEffect, useState } from "react";
-import MapList from "./components/MapList";
-import {
-  AppBar,
-  Drawer,
-  IconButton,
-  TextField,
-  Toolbar,
-  Grid,
-} from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
-import "./App.css";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import React, { useState } from "react";
+import { AppBar, Box, Tabs, Tab, Toolbar } from "@material-ui/core";
 
 function App() {
-  const [mapDetails, setMapDetails] = useState("");
-  const [drawerIsOpen, setDrawerIsOpen] = useState(true);
-  const [executable, setExecutable] = useState("");
-  const [basedir, setBasedir] = useState("");
-
-  useEffect(() => {
-    if (executable === "") {
-      setExecutable(localStorage.getItem("exe") || "");
-    } else {
-      localStorage.setItem("exe", executable);
-    }
-
-    if (basedir === "") {
-      setBasedir(localStorage.getItem("basedir") || "");
-    } else {
-      localStorage.setItem("basedir", basedir);
-    }
-  }, [executable, basedir]);
-
+  const [tabIndex, setTabIndex] = useState(0);
   return (
     <>
-      <AppBar position="fixed">
+      <AppBar>
         <Toolbar>
-          <IconButton
-            onClick={() => {
-              console.log("clicked");
-              setDrawerIsOpen(!drawerIsOpen);
+          <Tabs
+            value={tabIndex}
+            onChange={(value, newValue) => {
+              setTabIndex(newValue);
             }}
           >
-            <MenuIcon />
-          </IconButton>
+            <Tab label="Packages" />
+            <Tab label="Engine Configuration" />
+          </Tabs>
         </Toolbar>
       </AppBar>
-      <Drawer
-        anchor="left"
-        open={drawerIsOpen}
-        onClose={() => {
-          console.log("closing");
-          setDrawerIsOpen(false);
-        }}
-      >
-        <IconButton
-          onClick={() => {
-            setDrawerIsOpen(false);
-          }}
-        >
-          <ChevronLeftIcon />
-        </IconButton>
-        <TextField
-          label="Quake Executable"
-          value={executable}
-          onChange={(event) => {
-            setExecutable(event.target.value);
-          }}
-        />
-        <TextField
-          label="Quake Directory"
-          value={basedir}
-          onChange={(event) => {
-            setBasedir(event.target.value);
-          }}
-        />
-      </Drawer>
-      <Grid container direction="row" alignItems="stretch" className="AppGrid">
-        <Grid item xs={6}>
-          <MapList detailsSetter={setMapDetails} />
-        </Grid>
-        <Grid item xs={6}>
-          <p dangerouslySetInnerHTML={{ __html: mapDetails }}></p>
-        </Grid>
-      </Grid>
+      <Box flexDirection="column" display="flex" height="100%">
+        <Toolbar />
+        <Box flexGrow={1} display="flex" overflow="hidden">
+          <Box overflow="auto">
+            <p>Left column</p>
+          </Box>
+          <Box overflow="auto">
+            <p>Right Column</p>
+          </Box>
+        </Box>
+      </Box>
     </>
   );
 }
