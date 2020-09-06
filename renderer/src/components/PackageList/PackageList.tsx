@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, ListItem, ListItemText } from "@material-ui/core";
 import { FixedSizeList } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
+import { AutoSizer } from "react-virtualized";
 
 export const PackageList = () => {
   const Row = ({ index, style }) => (
