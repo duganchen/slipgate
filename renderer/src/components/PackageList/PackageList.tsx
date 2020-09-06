@@ -6,20 +6,16 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export const PackageList = () => {
   const numbers = [];
-  for (let i = 0; i < 10000; i++) {
+  for (let i = 0; i < 3; i++) {
     numbers.push(i);
   }
 
   const items = numbers.map((item) => (
-    <ListItemText primary={`item ${item}`} />
+    <ListItem key={item}>
+      <ListItemText primary={`item ${item}`} />
+    </ListItem>
   ));
-  return (
-    <Container>
-      <List>
-        <ListItem>{items}</ListItem>
-      </List>
-    </Container>
-  );
+  return <List>{items}</List>;
 
   // const useStyles = makeStyles((theme) => ({
   //   root: {

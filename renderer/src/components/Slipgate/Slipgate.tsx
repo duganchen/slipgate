@@ -111,14 +111,17 @@ export const Slipgate = () => {
       </AppBar>
       <Box flexDirection="column" display="flex" height="100%">
         <Toolbar />
-        <Box flexGrow={1} display="flex" flexDirection="row">
-          <Box display="flex" flexGrow={1}>
-            <PackageList />
-          </Box>
-          <Box display="flex" flexGrow={2}>
-            <p>Column 2</p>
+        <Box display="flex" overflow="hidden">
+          <Box flexGrow={1} display="flex" flexDirection="row">
+            <Box flexGrow={1} overflow="auto">
+              <PackageList />
+            </Box>
+            <Box flexGrow={2}>
+              <p>Column 2</p>
+            </Box>
           </Box>
         </Box>
+        1
       </Box>
     </>
   );
