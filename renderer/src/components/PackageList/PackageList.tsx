@@ -1,32 +1,27 @@
 import React from "react";
-import { Container, ListItem } from "@material-ui/core";
+import { Container, ListItem, ListItemText } from "@material-ui/core";
 import { FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 
 export const PackageList = () => {
-  const row = (index, style) => {
-    return (
-      <ListItem style={style}>
-        <div>`${index}`</div>
-      </ListItem>
-    );
-  };
+  const Row = ({ index, style }) => (
+    <div className={index % 2 ? "ListItemOdd" : "ListItemEven"} style={style}>
+      Row {index}
+    </div>
+  );
   return (
-    <Container>
-      <AutoSizer>
-        {({ height, width }) => {
-          return (
-            <FixedSizeList
-              height={height}
-              width={width}
-              itemCount={9999}
-              itemSize={1}
-            >
-              {row}
-            </FixedSizeList>
-          );
-        }}
-      </AutoSizer>
-    </Container>
+    <AutoSizer>
+      {({ height, width }) => (
+        <FixedSizeList
+          className="List"
+          height={height}
+          itemCount={1000}
+          itemSize={35}
+          width={width}
+        >
+          {Row}
+        </FixedSizeList>
+      )}
+    </AutoSizer>
   );
 };
