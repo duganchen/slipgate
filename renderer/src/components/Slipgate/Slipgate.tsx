@@ -18,7 +18,7 @@ import {
   Toolbar,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import Packages from "../Packages";
+import PackageList from "../PackageList";
 
 export const Slipgate = () => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
@@ -113,7 +113,7 @@ export const Slipgate = () => {
         <Toolbar />
         <Box flexGrow={1} display="flex" flexDirection="row">
           <Box display="flex" flexGrow={1}>
-            <p>Column 1</p>
+            <PackageList />
           </Box>
           <Box display="flex" flexGrow={2}>
             <p>Column 2</p>
