@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export const PackageList = () => {
   const numbers = [];
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 99; i++) {
     numbers.push(i);
   }
 
@@ -15,7 +15,15 @@ export const PackageList = () => {
       <ListItemText primary={`item ${item}`} />
     </ListItem>
   ));
-  return <List>{items}</List>;
+
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      width: "100%",
+      height: "100%",
+    },
+  }));
+  const classes = useStyles();
+  return <List className={classes.root}>{items}</List>;
 
   // const useStyles = makeStyles((theme) => ({
   //   root: {
