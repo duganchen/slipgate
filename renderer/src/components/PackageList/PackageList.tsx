@@ -1,10 +1,17 @@
 import React from "react";
-import { Container } from "@material-ui/core";
+import { Container, List, ListItem } from "@material-ui/core";
 
 export const PackageList = () => {
   return (
     <Container>
-      <p>PackageList</p>
+      <List>
+        <ListItem>
+          <div>Item 1</div>
+        </ListItem>
+        <ListItem>
+          <div>Item 2</div>
+        </ListItem>
+      </List>
     </Container>
   );
 };
