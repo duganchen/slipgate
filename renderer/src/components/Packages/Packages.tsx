@@ -9,7 +9,7 @@ export const Packages = () => {
       <Box flexGrow={1} flexBasis="33%" flexShrink={0} overflow="auto">
         <PackageList />
       </Box>
-      <Box flexGrow={2}>
+      <Box flexGrow={2} overflow="auto">
         <PackageInteraction />
       </Box>
     </Box>
