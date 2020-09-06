@@ -5,12 +5,18 @@ import { AutoSizer } from "react-virtualized";
 import { makeStyles } from "@material-ui/core/styles";
 
 export const PackageList = () => {
+  const numbers = [];
+  for (let i = 0; i < 10000; i++) {
+    numbers.push(i);
+  }
+
+  const items = numbers.map((item) => (
+    <ListItemText primary={`item ${item}`} />
+  ));
   return (
     <Container>
       <List>
-        <ListItem>
-          <ListItemText primary={`item ${1}`} />
-        </ListItem>
+        <ListItem>{items}</ListItem>
       </List>
     </Container>
   );
