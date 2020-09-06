@@ -113,16 +113,6 @@ export const Slipgate = () => {
       <Box flexDirection="column" display="flex" height="100%">
         <Toolbar />
         <Packages />
-        {/* <Box display="flex" overflow="hidden" flexGrow={1}>
-          <Box flexGrow={1} display="flex" flexDirection="row">
-            <Box flexGrow={1} overflow="auto">
-              <PackageList />
-            </Box>
-            <Box flexGrow={2}>
-              <p>Column 2</p>
-            </Box>
-          </Box>
-        </Box> */}
       </Box>
     </>
   );

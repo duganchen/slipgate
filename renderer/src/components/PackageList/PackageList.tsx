@@ -24,34 +24,4 @@ export const PackageList = () => {
   }));
   const classes = useStyles();
   return <List className={classes.root}>{items}</List>;
-
-  // const useStyles = makeStyles((theme) => ({
-  //   root: {
-  //     width: "100%",
-  //     height: "100%",
-  //   },
-  // }));
-  // const classes = useStyles();
-  // const Row = ({ index, style }) => (
-  //   <div className={index % 2 ? "ListItemOdd" : "ListItemEven"} style={style}>
-  //     Row {index}
-  //   </div>
-  // );
-  // return (
-  //   <Container className={classes.root}>
-  //     <AutoSizer>
-  //       {({ height, width }) => (
-  //         <FixedSizeList
-  //           className="List"
-  //           height={height}
-  //           itemCount={1000}
-  //           itemSize={35}
-  //           width={width}
-  //         >
-  //           {Row}
-  //         </FixedSizeList>
-  //       )}
-  //     </AutoSizer>
-  //   </Container>
-  // );
 };
