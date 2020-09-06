@@ -1,14 +1,32 @@
 import React from "react";
-import { Container, List, ListItem } from "@material-ui/core";
+import { Container, ListItem } from "@material-ui/core";
+import { FixedSizeList } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
 
 export const PackageList = () => {
-  let numbers = [];
-  for (let i = 0; i < 10000; i++) {
-    numbers.push(<ListItem>`item {i}`</ListItem>);
-  }
+  const row = (index, style) => {
+    return (
+      <ListItem style={style}>
+        <div>`${index}`</div>
+      </ListItem>
+    );
+  };
   return (
     <Container>
-      <List>{numbers}</List>
+      <AutoSizer>
+        {({ height, width }) => {
+          return (
+            <FixedSizeList
+              height={height}
+              width={width}
+              itemCount={9999}
+              itemSize={1}
+            >
+              {row}
+            </FixedSizeList>
+          );
+        }}
+      </AutoSizer>
     </Container>
   );
 };
