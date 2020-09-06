@@ -8,9 +8,9 @@ export const Packages = () => {
     <Box display="flex" overflow="hidden" flexGrow={1}>
       <Box flexGrow={1} display="flex" flexDirection="row">
         <PackageList />
-        <Box flexGrow={2}>
-          <PackageInteraction />
-        </Box>
+      </Box>
+      <Box flexGrow={2}>
+        <PackageInteraction />
       </Box>
     </Box>
   );
