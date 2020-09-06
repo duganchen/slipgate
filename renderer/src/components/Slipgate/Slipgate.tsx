@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   AppBar,
-  Checkbox,
   Button,
   Box,
   Dialog,
@@ -18,7 +17,6 @@ import {
   Toolbar,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import PackageList from "../PackageList";
 import Packages from "../Packages";
 
 export const Slipgate = () => {
@@ -103,11 +101,8 @@ export const Slipgate = () => {
           </Menu>
           <Input type="search" placeholder="filter" />
           <FormControlLabel control={<Switch />} label="Installed Only" />
-          <FormControlLabel control={<Checkbox />} label="Sort by rating" />
-          <FormControlLabel
-            control={<Checkbox />}
-            label="Sort by release date"
-          />
+          <FormControlLabel control={<Switch />} label="Sort by rating" />
+          <FormControlLabel control={<Switch />} label="Sort by release date" />
         </Toolbar>
       </AppBar>
       <Box flexDirection="column" display="flex" height="100%">
