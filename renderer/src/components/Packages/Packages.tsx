@@ -6,7 +6,7 @@ import PackageList from "../PackageList";
 export const Packages = () => {
   return (
     <Box display="flex" overflow="hidden" flexGrow={1}>
-      <Box flexGrow={1} display="flex" flexDirection="row">
+      <Box flexGrow={1} flexBasis="33%" flexShrink={0} overflow="auto">
         <PackageList />
       </Box>
       <Box flexGrow={2}>
