@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, ListItem, ListItemText } from "@material-ui/core";
 import { QuakeMap } from "../types";
-import { renderAuthors } from "../MapList/helpers";
+import { renderAuthors } from "./helpers";
 import Rating from "@material-ui/lab/Rating";
 
 export const PackageItem = (props: {
