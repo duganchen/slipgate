@@ -1,4 +1,12 @@
-import { app, ipcMain, session, BrowserWindow, Menu, MenuItem } from "electron";
+import {
+  app,
+  dialog,
+  ipcMain,
+  session,
+  BrowserWindow,
+  Menu,
+  MenuItem,
+} from "electron";
 import * as path from "path";
 import * as isDev from "electron-is-dev";
 
@@ -12,6 +20,8 @@ import { parseDB } from "./dbParser";
 import { allowedNodeEnvironmentFlags } from "process";
 
 import * as Ajv from "ajv";
+
+import { constants } from "fs";
 
 config();
 
@@ -80,6 +90,46 @@ ipcMain.on("fetch-maps", async (event, arg) => {
 
   await fs.writeFile(dbFile, JSON.stringify(maps));
   event.reply("maps", maps);
+});
+
+ipcMain.on("browse-exe", async () => {
+  const exes = dialog.showOpenDialogSync({
+    title: "Select Quake Executable",
+    properties: ["openFile"],
+  });
+
+  if (exes === undefined) {
+    return;
+  }
+
+  try {
+    await fs.access(exes[0], constants.X_OK);
+  } catch {
+    return;
+  }
+
+  console.log(exes[0]);
+});
+
+ipcMain.on("browse-basedir", async () => {
+  const basedirs = dialog.showOpenDialogSync({
+    title: "Select Quake Directory",
+    properties: ["openDirectory"],
+  });
+
+  if (basedirs === undefined) {
+    return;
+  }
+
+  try {
+    // Yes, this assumes that the directory is either named "id1" or that it's
+    // mounted on a case-insensitive filesystem.
+    await fs.access(`${basedirs[0]}/id1`, constants.R_OK | constants.X_OK);
+  } catch {
+    return;
+  }
+
+  console.log(basedirs[0]);
 });
 
 function createWindow() {
