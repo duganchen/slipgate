@@ -9,7 +9,7 @@ export const PackageItem = (props: {
   map: QuakeMap;
 }) => {
   return (
-    <ListItem key={props.map.id} alignItems="flex-start" button>
+    <ListItem alignItems="flex-start" style={props.style} button>
       <Grid container>
         <Grid item xs>
           <ListItemText
