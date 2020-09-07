@@ -1,5 +1,6 @@
 import React from "react";
 import { Grid, ListItem, ListItemText } from "@material-ui/core";
+import { QuakeMap } from "../types";
 
 export const PackageItem = (props: {
   style: React.CSSProperties;

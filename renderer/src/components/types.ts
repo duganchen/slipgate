@@ -1,4 +1,4 @@
-interface QuakeMap {
+export interface QuakeMap {
   id: string;
   type: string;
   label: string;
