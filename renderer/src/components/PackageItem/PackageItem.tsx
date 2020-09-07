@@ -13,7 +13,7 @@ export const PackageItem = (props: {
         <Grid item xs>
           <ListItemText
             primary={props.map.title}
-            secondary={renderAuthors(props.map.authors)}
+            secondary={`${props.map.id}.zip`}
           />
         </Grid>
         <Grid item className="MapList__Item-Secondary">
