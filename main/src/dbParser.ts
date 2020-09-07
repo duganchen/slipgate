@@ -29,6 +29,7 @@ const parseDB = (xmlData: string) => {
       authors: parsedMap.author.split(",").map((s) => s.trim()),
       zipbasedir: parsedMap.techinfo.zipbasedir,
       commandline: parsedMap.techinfo.commandline,
+      filename: `${parsedMap.id}.zip`,
     };
 
     if (parsedMap.techinfo.hasOwnProperty("startmap")) {

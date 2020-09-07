@@ -26,6 +26,9 @@
                 "description": {
                     "type": "string"
                 },
+                "filename": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },
