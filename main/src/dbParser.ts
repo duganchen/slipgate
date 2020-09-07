@@ -12,6 +12,7 @@ const parseDB = (xmlData: string) => {
 
   let maps: Maps = {};
   dbObj["files"]["file"].forEach((parsedMap: ParsedMap) => {
+    const date = moment(parsedMap.date, "DD.MM.YY").toDate();
     maps[parsedMap.id] = {
       id: parsedMap.id,
       type:
@@ -21,7 +22,7 @@ const parseDB = (xmlData: string) => {
       md5sum: parsedMap.md5sum,
       title: parsedMap.title,
       size: parseInt(parsedMap.size, 10),
-      date: moment(parsedMap.date, "DD.MM.YY").toDate(),
+      date: date,
       description: parsedMap.description,
       startmap: [],
       requirements: [],
@@ -29,7 +30,7 @@ const parseDB = (xmlData: string) => {
       authors: parsedMap.author.split(",").map((s) => s.trim()),
       zipbasedir: parsedMap.techinfo.zipbasedir,
       commandline: parsedMap.techinfo.commandline,
-      filename: `${parsedMap.id}.zip`,
+      secondary: `${date.toLocaleDateString()} - ${parsedMap.id}.zip`,
     };
 
     if (parsedMap.techinfo.hasOwnProperty("startmap")) {

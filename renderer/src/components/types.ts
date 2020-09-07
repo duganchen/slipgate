@@ -14,7 +14,7 @@ interface QuakeMap {
   commandline: string;
   startmap: Array<string>;
   requirements: Array<string>;
-  filename: string;
+  secondary: string;
 }
 
 export interface Maps {
