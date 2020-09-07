@@ -19,7 +19,7 @@ export const Packages = () => {
   return (
     <Box display="flex" overflow="hidden" flexGrow={1}>
       <Box flexGrow={1} flexBasis="33%" flexShrink={0} overflow="auto">
-        <PackageList />
+        <PackageList maps={Object.values(maps)} />
       </Box>
       <Box flexGrow={2} overflow="auto">
         <PackageInteraction />

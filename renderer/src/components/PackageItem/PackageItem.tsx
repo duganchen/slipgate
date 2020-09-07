@@ -1,13 +1,14 @@
 import React from "react";
 import { ListItem, ListItemText } from "@material-ui/core";
+import { QuakeMap } from "../types";
 
 export const PackageItem = (props: {
   style: React.CSSProperties;
-  primary: string;
+  map: QuakeMap;
 }) => {
   return (
     <ListItem style={props.style}>
-      <ListItemText primary={props.primary} />
+      <ListItemText primary={props.map.description} />
     </ListItem>
   );
 };
