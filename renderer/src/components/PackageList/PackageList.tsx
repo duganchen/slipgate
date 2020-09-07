@@ -2,6 +2,7 @@ import React from "react";
 import { ListItem, ListItemText } from "@material-ui/core";
 import { FixedSizeList } from "react-window";
 import { AutoSizer } from "react-virtualized";
+import PackageItem from "../PackageItem";
 
 export const PackageList = () => {
   // This is the "height" in the inspector if you don't use react-window.
@@ -18,9 +19,7 @@ export const PackageList = () => {
           width={width}
         >
           {({ index, style }) => (
-            <ListItem key={index} style={style}>
-              <ListItemText primary={`Row ${index}`} />
-            </ListItem>
+            <PackageItem key={index} style={style} primary={`Row ${index}`} />
           )}
         </FixedSizeList>
       )}
