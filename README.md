@@ -30,3 +30,10 @@ When its port is open, use the "Electron: All" launch configuration in VSCode. Y
 
 For more details, refer to the [Electron/React/TypeScript Boilerplate](https://github.com/duganchen/electron-react-typescript-boilerplate) that this is based on.
 
+### Building the Maps Schema
+
+Each type the Typescript definitions for the maps database change, you need to rebuild the JSON schema used to validate the database.
+
+    yarn workspace main build_schema
+
+Then commit the changes to reference/maps.schema.

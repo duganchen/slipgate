@@ -8,7 +8,8 @@
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "start": "npm run build && electron ./dist/main.js",
     "debug": "electron ./dist/main.js -remote-debugging-port=9222",
-    "test": "jest"
+    "test": "jest",
+    "build_schema": "typescript-json-schema ./tsconfig.json Maps -o ../reference/maps.schema"
   },
   "repository": "https://github.com/electron/electron-quick-start-typescript",
   "keywords": [

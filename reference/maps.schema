@@ -38,7 +38,7 @@
                 "rating": {
                     "type": [
                         "null",
-                        "number"
+                        "string"
                     ]
                 },
                 "requirements": {

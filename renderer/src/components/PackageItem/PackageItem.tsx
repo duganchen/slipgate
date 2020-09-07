@@ -2,7 +2,6 @@ import React from "react";
 import { Grid, ListItem, ListItemText } from "@material-ui/core";
 import { QuakeMap } from "../types";
 import { renderAuthors } from "./helpers";
-import Rating from "@material-ui/lab/Rating";
 
 export const PackageItem = (props: {
   style: React.CSSProperties;
@@ -18,7 +17,7 @@ export const PackageItem = (props: {
           />
         </Grid>
         <Grid item className="MapList__Item-Secondary">
-          <Rating value={props.map.rating} readOnly size="small" />
+          <p>{props.map.rating}</p>
         </Grid>
       </Grid>
     </ListItem>
