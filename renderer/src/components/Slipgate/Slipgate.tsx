@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import {
   AppBar,
   Button,
@@ -19,6 +20,8 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import Packages from "../Packages";
 
+const { ipcRenderer } = window.require("electron");
+
 export const Slipgate = () => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
@@ -35,11 +38,15 @@ export const Slipgate = () => {
         <DialogContent>
           <div>
             <TextField label="Quake Executable" />
-            <Button>Browse</Button>
+            <Button onClick={() => ipcRenderer.send("browse-exe")}>
+              Browse
+            </Button>
           </div>
           <div>
             <TextField label="Quake Directory" />
-            <Button>Browse</Button>
+            <Button onClick={() => ipcRenderer.send("browse-basedir")}>
+              Browse
+            </Button>
           </div>
         </DialogContent>
         <DialogActions>
