@@ -92,46 +92,6 @@ ipcMain.on("fetch-maps", async (event, arg) => {
   event.reply("maps", maps);
 });
 
-ipcMain.on("browse-exe", async () => {
-  const exes = dialog.showOpenDialogSync({
-    title: "Select Quake Executable",
-    properties: ["openFile"],
-  });
-
-  if (exes === undefined) {
-    return;
-  }
-
-  try {
-    await fs.access(exes[0], constants.X_OK);
-  } catch {
-    return;
-  }
-
-  console.log(exes[0]);
-});
-
-ipcMain.on("browse-basedir", async () => {
-  const basedirs = dialog.showOpenDialogSync({
-    title: "Select Quake Directory",
-    properties: ["openDirectory"],
-  });
-
-  if (basedirs === undefined) {
-    return;
-  }
-
-  try {
-    // Yes, this assumes that the directory is either named "id1" or that it's
-    // mounted on a case-insensitive filesystem.
-    await fs.access(`${basedirs[0]}/id1`, constants.R_OK | constants.X_OK);
-  } catch {
-    return;
-  }
-
-  console.log(basedirs[0]);
-});
-
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -167,6 +127,71 @@ function createWindow() {
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
+
+  ipcMain.on("browse-exe", async () => {
+    const exes = dialog.showOpenDialogSync(mainWindow, {
+      title: "Select Quake Executable",
+      properties: ["openFile"],
+    });
+
+    if (exes === undefined) {
+      return;
+    }
+
+    mainWindow.webContents.send("exe", exes[0]);
+
+    try {
+      await fs.access(exes[0], constants.X_OK);
+    } catch {
+      mainWindow.webContents.send("exe-error", true);
+      mainWindow.webContents.send("exe-text", "File is not executable");
+      return;
+    }
+
+    mainWindow.webContents.send("exe-error", false);
+    mainWindow.webContents.send("exe-text", "");
+  });
+
+  ipcMain.on("browse-basedir", async () => {
+    const basedirs = dialog.showOpenDialogSync(mainWindow, {
+      title: "Select Quake Directory",
+      properties: ["openDirectory"],
+    });
+
+    if (basedirs === undefined) {
+      return;
+    }
+
+    mainWindow.webContents.send("basedir", basedirs[0]);
+
+    // Yes, this assumes that the directory is either literally named "id1" or that it's
+    // mounted on a case-insensitive filesystem.
+    const id1 = `${basedirs[0]}/id1`;
+    console.log(id1);
+
+    try {
+      const stat = await fs.lstat(id1);
+      if (!stat.isDirectory()) {
+        mainWindow.webContents.send("basedir-error", true);
+        mainWindow.webContents.send("basedir-text", "Not a Quake directory");
+      }
+    } catch {
+      mainWindow.webContents.send("basedir-error", true);
+      mainWindow.webContents.send("basedir-text", "Not a Quake directory");
+      return;
+    }
+
+    try {
+      await fs.access(id1, constants.R_OK | constants.X_OK);
+    } catch {
+      mainWindow.webContents.send("basedir-error", true);
+      mainWindow.webContents.send("basedir-text", "Not a Quake directory");
+      return;
+    }
+
+    mainWindow.webContents.send("basedir-error", false);
+    mainWindow.webContents.send("basedir-text", "");
+  });
 }
 
 // This method will be called when Electron has finished

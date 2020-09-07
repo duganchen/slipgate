@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   AppBar,
@@ -26,6 +26,40 @@ export const Slipgate = () => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
 
+  const [exe, setExe] = useState("");
+  const [exeError, setExeError] = useState(false);
+  const [exeText, setExeText] = useState("");
+
+  const [basedir, setBasedir] = useState("");
+  const [basedirError, setBasedirError] = useState(false);
+  const [basedirText, setBasedirText] = useState("");
+
+  useEffect(() => {
+    ipcRenderer.on("exe", (event: Event, arg: string) => {
+      setExe(arg);
+    });
+
+    ipcRenderer.on("exe-text", (event: Event, arg: string) => {
+      setExeText(arg);
+    });
+
+    ipcRenderer.on("exe-error", (event: Event, arg: boolean) => {
+      setExeError(arg);
+    });
+
+    ipcRenderer.on("basedir", (event: Event, arg: string) => {
+      setBasedir(arg);
+    });
+
+    ipcRenderer.on("basedir-text", (event: Event, arg: string) => {
+      setBasedirText(arg);
+    });
+
+    ipcRenderer.on("basedir-error", (event: Event, arg: boolean) => {
+      setBasedirError(arg);
+    });
+  }, [exe, exeError, exeText, basedir, basedirError, basedirText]);
+
   return (
     <>
       <Dialog
@@ -37,13 +71,23 @@ export const Slipgate = () => {
         <DialogTitle>Configure Slipgate</DialogTitle>
         <DialogContent>
           <div>
-            <TextField label="Quake Executable" />
+            <TextField
+              label="Quake Executable"
+              error={exeError}
+              value={exe}
+              helperText={exeText}
+            />
             <Button onClick={() => ipcRenderer.send("browse-exe")}>
               Browse
             </Button>
           </div>
           <div>
-            <TextField label="Quake Directory" />
+            <TextField
+              label="Quake Directory"
+              error={basedirError}
+              value={basedir}
+              helperText={basedirText}
+            />
             <Button onClick={() => ipcRenderer.send("browse-basedir")}>
               Browse
             </Button>
