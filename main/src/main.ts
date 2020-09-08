@@ -22,6 +22,7 @@ import { allowedNodeEnvironmentFlags } from "process";
 import * as Ajv from "ajv";
 
 import { constants } from "fs";
+import { exec } from "child_process";
 
 config();
 
@@ -67,6 +68,7 @@ ipcMain.on("fetch-maps", async (event, arg) => {
 
   const schemaJSON = await fs.readFile("../reference/maps.schema");
   const schema = JSON.parse(schemaJSON.toString());
+  // TODO: Future versions will just version the configuration file format.
   const ajv = new Ajv();
   const validate = ajv.compile(schema);
   let valid;
@@ -193,6 +195,43 @@ function createWindow() {
     mainWindow.webContents.send("basedir-text", "");
   });
 }
+
+ipcMain.on("fetch-configuration", async (event) => {
+  const engineConfigurationVersion = 1;
+  const confFile = `${app.getPath("cache")}/slipgate/engine.json`;
+
+  // TODO: Add error handling after testing some cases.
+  const confBuffer = await fs.readFile(confFile);
+  const conf = JSON.parse(confBuffer.toString());
+
+  if (!conf.hasOwnProperty("exe")) {
+    return;
+  }
+
+  if (!conf.hasOwnProperty("basedir")) {
+    return;
+  }
+
+  event.reply("configuration", { exe: conf.exe, basedir: conf.basedir });
+});
+
+ipcMain.on(
+  "save-configuration",
+  async (event, arg: { exe: string; basedir: string }) => {
+    console.log("Saving configuration");
+    const engineConfigurationVersion = 1;
+    const confFile = `${app.getPath("cache")}/slipgate/engine.json`;
+
+    await fs.writeFile(
+      confFile,
+      JSON.stringify({
+        version: engineConfigurationVersion,
+        exe: arg.exe,
+        basedir: arg.basedir,
+      })
+    );
+  }
+);
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

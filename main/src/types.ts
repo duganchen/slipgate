@@ -49,4 +49,10 @@ interface Maps {
   [id: string]: QuakeMap;
 }
 
+interface EngineConfiguration {
+  version: number;
+  exe: string;
+  basedir: string;
+}
+
 export { ParsedMap, ParsedRequirements, Maps, QuakeMap };

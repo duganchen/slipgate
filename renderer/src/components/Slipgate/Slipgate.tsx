@@ -35,6 +35,16 @@ export const Slipgate = () => {
   const [basedirText, setBasedirText] = useState("");
 
   useEffect(() => {
+    ipcRenderer.send("fetch-configuration");
+
+    ipcRenderer.on(
+      "configuration",
+      (event, arg: { exe: string; basedir: string }) => {
+        setExe(arg.exe);
+        setBasedir(arg.basedir);
+      }
+    );
+
     ipcRenderer.on("exe", (event: Event, arg: string) => {
       setExe(arg);
     });
@@ -103,6 +113,12 @@ export const Slipgate = () => {
           </Button>
           <Button
             onClick={() => {
+              if (!exeError && !basedirError) {
+                ipcRenderer.send("save-configuration", {
+                  exe: exe,
+                  basedir: basedir,
+                });
+              }
               setDialogIsOpen(false);
             }}
           >
