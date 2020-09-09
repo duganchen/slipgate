@@ -1,9 +1,21 @@
 import React from "react";
-import { Container } from "@material-ui/core";
+import {
+  Button,
+  Container,
+  MenuItem,
+  Select,
+  TextField,
+} from "@material-ui/core";
 
 export const PackageInteraction = () => {
   return (
     <Container>
+      <img
+        src="https://www.quaddicted.com/reviews/screenshots/mhsp01_thumb.jpg"
+        width="500"
+        height="375"
+        alt="Screenshot of mhsp01"
+      />
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Sed blandit libero
@@ -19,6 +31,11 @@ export const PackageInteraction = () => {
         Quis risus sed vulputate odio ut enim blandit volutpat maecenas. Nunc
         congue nisi vitae suscipit tellus mauris.
       </p>
+      <Select>
+        <MenuItem>map01</MenuItem>
+      </Select>
+      <Button>Launch!</Button>
+      <TextField inputProps={{ readOnly: true }}></TextField>
     </Container>
   );
 };
