@@ -8,7 +8,7 @@ interface ParsedRequirements {
 
 interface ParsedTechInfo {
   zipbasedir: string;
-  commandline: string;
+  commandline?: string;
   startmap?: string | Array<string>;
   requirements?: ParsedRequirements;
 }
@@ -39,7 +39,7 @@ interface QuakeMap {
   date: Date;
   description: string;
   zipbasedir: string;
-  commandline: string;
+  commandline: string[];
   startmap: Array<string>;
   requirements: Array<string>;
   secondary: string;

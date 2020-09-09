@@ -17,6 +17,8 @@ const parseDB = (xmlData: string) => {
       id: parsedMap.id,
       type:
         parsedMap.type === "1" ? "Single BSP File(s)" : "Partial conversion",
+      // I'm having performance issues using material-ui's Ratings (which have)
+      // the stars as SVGs) with react-window.
       rating: "⭐".repeat(parseInt(parsedMap.rating as string, 10)),
       label: `${parsedMap.id}.zip - ${parsedMap.title}`,
       md5sum: parsedMap.md5sum,
@@ -29,7 +31,10 @@ const parseDB = (xmlData: string) => {
       author: parsedMap.author,
       authors: parsedMap.author.split(",").map((s) => s.trim()),
       zipbasedir: parsedMap.techinfo.zipbasedir,
-      commandline: parsedMap.techinfo.commandline,
+      commandline:
+        parsedMap.techinfo.commandline !== undefined
+          ? parsedMap.techinfo.commandline.split(" ")
+          : [],
       secondary: `${date.toLocaleDateString()} - ${parsedMap.id}.zip`,
     };
 
