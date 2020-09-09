@@ -2,8 +2,6 @@ import { parseDB } from "../src/dbParser";
 import { promises as fs } from "fs";
 import * as path from "path";
 
-console.log(__dirname);
-
 test("confirm jest is working", async () => {
   const xmlPromise = await fs.readFile(
     path.join(

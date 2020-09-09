@@ -43,6 +43,7 @@ interface QuakeMap {
   startmap: Array<string>;
   requirements: Array<string>;
   secondary: string;
+  thumbnail: string;
 }
 
 interface Maps {

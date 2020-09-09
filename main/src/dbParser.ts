@@ -36,6 +36,7 @@ const parseDB = (xmlData: string) => {
           ? parsedMap.techinfo.commandline.split(" ")
           : [],
       secondary: `${date.toLocaleDateString()} - ${parsedMap.id}.zip`,
+      thumbnail: `https://www.quaddicted.com/reviews/screenshots/mhsp01_${parsedMap.id}.jpg`,
     };
 
     if (parsedMap.techinfo.hasOwnProperty("startmap")) {
