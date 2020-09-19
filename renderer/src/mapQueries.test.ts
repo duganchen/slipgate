@@ -16,4 +16,3 @@ test("Test the map queries", async () => {
     fort_driant: "https://www.quaddicted.com/filebase/fort_driant.zip",
   });
 });
-export {};
