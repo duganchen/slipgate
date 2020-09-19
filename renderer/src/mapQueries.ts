@@ -1,4 +1,6 @@
-import { Maps } from "./components/types";
+export interface Maps {
+  [index: string]: { requirements: string[] }
+}
 
 const getUrls = function (
   map: string,

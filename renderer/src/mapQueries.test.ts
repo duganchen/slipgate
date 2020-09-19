@@ -1,12 +1,12 @@
 import { getPackageLinks } from "../src/mapQueries";
-import { promises as fs } from "fs";
-import * as path from "path";
 
 test("Test the map queries", async () => {
-  const mapsJSON = await fs.readFile(
-    path.join(path.dirname(path.dirname(__dirname)), "reference", "maps.json")
-  );
-  const maps = JSON.parse(mapsJSON.toString());
+  const maps = {
+    "fort_driant-fullvis": { requirements: ["quoth", "fort_driant"] },
+    quoth: { requirements: [] as string[] },
+    fort_driant: { requirements: ["quoth"] },
+  };
+
   const requirements = getPackageLinks("fort_driant-fullvis", maps);
 
   expect(requirements).toMatchObject({
