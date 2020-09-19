@@ -1,4 +1,4 @@
-import { getUrls } from "../src/mapQueries";
+import { getPackageLinks } from "../src/mapQueries";
 import { promises as fs } from "fs";
 import * as path from "path";
 
@@ -7,8 +7,7 @@ test("Test the map queries", async () => {
     path.join(path.dirname(path.dirname(__dirname)), "reference", "maps.json")
   );
   const maps = JSON.parse(mapsJSON.toString());
-  const requirements = {};
-  getUrls("fort_driant-fullvis", maps, requirements);
+  const requirements = getPackageLinks("fort_driant-fullvis", maps);
 
   expect(requirements).toMatchObject({
     "fort_driant-fullvis":

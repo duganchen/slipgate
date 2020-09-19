@@ -1,6 +1,6 @@
 import { Maps } from "./components/types";
 
-export const getUrls = function (
+const getUrls = function (
   map: string,
   maps: Maps,
   requirements: { [index: string]: string }
@@ -17,4 +17,11 @@ export const getUrls = function (
   }
 };
 
-export {};
+export const getPackageLinks = function (
+  map: string,
+  maps: Maps
+): { [index: string]: string } {
+  const requirements = {};
+  getUrls(map, maps, requirements);
+  return requirements;
+};
