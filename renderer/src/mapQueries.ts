@@ -1,4 +1,4 @@
-import { Maps } from "./types";
+import { Maps } from "./components/types";
 
 export const getUrls = function (
   map: string,
