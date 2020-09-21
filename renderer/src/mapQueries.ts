@@ -1,5 +1,5 @@
 export interface Maps {
-  [index: string]: { requirements: string[] }
+  [index: string]: { requirements: string[] };
 }
 
 const getUrls = function (
@@ -26,4 +26,25 @@ export const getPackageLinks = function (
   const requirements = {};
   getUrls(map, maps, requirements);
   return requirements;
+};
+
+// /home/dugan/Software/vkQuake/Quake/vkquake -basedir /storage/quake
+
+export const getCommandLine = function (
+  engine: { exe: string; basedir: string },
+  map: { commandline?: string },
+  startmap?: string
+): string[] {
+  const argv = [engine.exe, "-basedir", engine.basedir];
+
+  if (map.hasOwnProperty("commandline")) {
+    argv.push(...(map.commandline as string).split(" "));
+  }
+
+  if (startmap !== undefined) {
+    argv.push("+map");
+    argv.push(startmap);
+  }
+
+  return argv;
 };
