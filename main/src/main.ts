@@ -24,12 +24,14 @@ import * as Ajv from "ajv";
 import { constants } from "fs";
 import { exec } from "child_process";
 
+import * as xdg from "xdg-portable";
+
 config();
 
 ipcMain.on("fetch-maps", async (event, arg) => {
-  await fs.mkdir(`${app.getPath("cache")}/slipgate`, { recursive: true });
+  await fs.mkdir(`${xdg.cache()}/slipgate`, { recursive: true });
 
-  const dbFile = `${app.getPath("cache")}/slipgate/maps.json`;
+  const dbFile = `${xdg.cache()}/slipgate/maps.json`;
   const dbUrl = "https://www.quaddicted.com/reviews/quaddicted_database.xml";
   const dateFile = `${app.getPath("cache")}/slipgate/date.txt`;
 
