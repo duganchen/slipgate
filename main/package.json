@@ -47,6 +47,7 @@
     "moment": "^2.27.0",
     "node-fetch": "^2.6.1",
     "ts-jest": "24.*",
-    "unzipper": "^0.10.11"
+    "unzipper": "^0.10.11",
+    "xdg-portable": "^7.2.1"
   }
 }

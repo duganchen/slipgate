@@ -8194,6 +8194,11 @@ os-browserify@^0.3.0:
   resolved "https://registry.yarnpkg.com/os-browserify/-/os-browserify-0.3.0.tgz#854373c7f5c2315914fc9bfc6bd8238fdda1ec27"
   integrity sha1-hUNzx/XCMVkU/Jv8a9gjj92h7Cc=
 
+os-paths@^4.0.1:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/os-paths/-/os-paths-4.2.0.tgz#9fc5209d76c5859e581e30832d5287341df01059"
+  integrity sha512-EH766lvboIFLggwsdUxyCnNJLGRvG4v58Om37WYK9rCUMk1FP6DoMSqOlsrcs0oibgmpsSQ6+TJHJ9VQI6qCIg==
+
 os-tmpdir@~1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/os-tmpdir/-/os-tmpdir-1.0.2.tgz#bbe67406c79aa85c5cfec766fe5734555dfa1274"
@@ -11971,6 +11976,13 @@ ws@^6.1.2, ws@^6.2.1:
   integrity sha512-GIyAXC2cB7LjvpgMt9EKS2ldqr0MTrORaleiOno6TweZ6r3TKtoFQWay/2PceJ3RuBasOHzXNn5Lrw1X0bEjqA==
   dependencies:
     async-limiter "~1.0.0"
+
+xdg-portable@^7.2.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/xdg-portable/-/xdg-portable-7.2.1.tgz#4301ba0868b2cbc9de0c53b3699906adcc9d2560"
+  integrity sha512-cei7jiJbpiH+d5qqAcxVxTPNDolJQzwOZa64NYykO9XotK99q1x8NXaMJe4D08q7bigz003mKDSVTfH4lLiZKw==
+  dependencies:
+    os-paths "^4.0.1"
 
 xml-name-validator@^3.0.0:
   version "3.0.0"
