@@ -39,7 +39,7 @@
     "ajv": "^6.12.4",
     "dotenv": "^8.2.0",
     "easydl": "^1.0.1",
-    "electron": "^10.1.0",
+    "electron": "^10.1.2",
     "electron-is-dev": "^1.2.0",
     "fast-xml-parser": "^3.17.4",
     "fuse.js": "^6.4.1",
