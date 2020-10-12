@@ -15,11 +15,8 @@ import fetch from "node-fetch";
 import { config } from "dotenv";
 
 import { parseDB } from "./dbParser";
-import { allowedNodeEnvironmentFlags } from "process";
 
 import { constants } from "fs";
-
-import * as xdg from "xdg-portable";
 
 config();
 
@@ -27,9 +24,9 @@ ipcMain.on("fetch-maps", async (event, arg) => {
   // Update this whenever the file format changes.
   const version = 1;
 
-  await fs.mkdir(`${xdg.cache()}/slipgate`, { recursive: true });
+  await fs.mkdir(`${app.getPath("cache")}/slipgate`, { recursive: true });
 
-  const dbFile = `${xdg.cache()}/slipgate/maps.json`;
+  const dbFile = `${app.getPath("cache")}/slipgate/maps.json`;
   const dbUrl = "https://www.quaddicted.com/reviews/quaddicted_database.xml";
   const dateFile = `${app.getPath("cache")}/slipgate/date.txt`;
 
