@@ -1,12 +1,4 @@
-import {
-  app,
-  dialog,
-  ipcMain,
-  session,
-  BrowserWindow,
-  Menu,
-  MenuItem,
-} from "electron";
+import { app, dialog, ipcMain, session, BrowserWindow } from "electron";
 import * as path from "path";
 import * as isDev from "electron-is-dev";
 
@@ -94,18 +86,6 @@ function createWindow() {
 
   // and load the index.html of the app.
   if (isDev) {
-    const menu = Menu.getApplicationMenu() as Menu;
-    menu.append(
-      new MenuItem({
-        label: "Restart",
-        click: () => {
-          console.log("We use the click handler");
-          app.exit(3);
-        },
-      })
-    );
-    Menu.setApplicationMenu(menu);
-
     const reactPort =
       process.env.REACT_PORT !== undefined ? process.env.REACT_PORT : "3000";
 
