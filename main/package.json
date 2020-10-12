@@ -36,7 +36,6 @@
   "dependencies": {
     "@types/testing-library__dom": "^7.5.0",
     "@types/unzipper": "^0.10.3",
-    "ajv": "^6.12.4",
     "dotenv": "^8.2.0",
     "easydl": "^1.0.1",
     "electron": "^10.1.2",

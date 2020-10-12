@@ -47,7 +47,13 @@ interface QuakeMap {
 }
 
 interface Maps {
-  [id: string]: QuakeMap;
+    [id: string]: QuakeMap;
+}
+
+interface Packages {
+  // This changes when the file format changes.
+  version: number,
+  maps: Maps
 }
 
 interface EngineConfiguration {

@@ -11,8 +11,8 @@ test("confirm jest is working", async () => {
     )
   );
   const xmlData = xmlPromise.toString();
-  const mapData = parseDB(xmlData);
+  const packages = parseDB(xmlData, 1);
 
   // Randomly check one.
-  expect(mapData["warpspasm"]["requirements"][0]).toBe("quoth");
+  expect(packages["maps"]["warpspasm"]["requirements"][0]).toBe("quoth");
 });

@@ -12,23 +12,21 @@ import * as isDev from "electron-is-dev";
 
 import { promises as fs } from "fs";
 import fetch from "node-fetch";
-import * as parser from "fast-xml-parser";
 import { config } from "dotenv";
 
-import * as moment from "moment";
 import { parseDB } from "./dbParser";
 import { allowedNodeEnvironmentFlags } from "process";
 
-import * as Ajv from "ajv";
-
 import { constants } from "fs";
-import { exec } from "child_process";
 
 import * as xdg from "xdg-portable";
 
 config();
 
 ipcMain.on("fetch-maps", async (event, arg) => {
+  // Update this whenever the file format changes.
+  const version = 1;
+
   await fs.mkdir(`${xdg.cache()}/slipgate`, { recursive: true });
 
   const dbFile = `${xdg.cache()}/slipgate/maps.json`;
@@ -68,29 +66,19 @@ ipcMain.on("fetch-maps", async (event, arg) => {
     daysOld = Math.floor(Number(Date.now()) - Number(lastModified)) / days;
   }
 
-  const schemaJSON = await fs.readFile("../reference/maps.schema");
-  const schema = JSON.parse(schemaJSON.toString());
-  // TODO: Future versions will just version the configuration file format.
-  const ajv = new Ajv();
-  const validate = ajv.compile(schema);
-  let valid;
-
   if (dbExists && !daysOld) {
     const mapsJSON = await fs.readFile(dbFile);
-    const mapData = JSON.parse(mapsJSON.toString());
-    valid = validate(mapData);
+    const packages = JSON.parse(mapsJSON.toString());
 
-    if (valid) {
-      event.reply("maps", mapData);
+    if (packages.version === version) {
+      event.reply("maps", packages.maps);
       return;
-    } else {
-      console.log(validate.errors);
     }
   }
 
   const response = await fetch(dbUrl);
   const xml = await response.text();
-  const maps = parseDB(xml);
+  const maps = parseDB(xml, version);
 
   await fs.writeFile(dbFile, JSON.stringify(maps));
   event.reply("maps", maps);

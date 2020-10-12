@@ -2,7 +2,7 @@ import * as parser from "fast-xml-parser";
 import * as moment from "moment";
 import { ParsedMap, Maps, ParsedRequirements } from "./types";
 
-const parseDB = (xmlData: string) => {
+const parseDB = (xmlData: string, version: number) => {
   const dbObj = parser.parse(xmlData, {
     ignoreAttributes: false,
     attributeNamePrefix: "",
@@ -58,7 +58,7 @@ const parseDB = (xmlData: string) => {
     }
   });
 
-  return maps;
+  return { version, maps: maps };
 };
 
 export { parseDB };
