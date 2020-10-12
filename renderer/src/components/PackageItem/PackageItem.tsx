@@ -3,11 +3,10 @@ import { Grid, ListItem, ListItemText } from "@material-ui/core";
 import { QuakeMap } from "../types";
 
 export const PackageItem = (props: {
-  style: React.CSSProperties;
   map: QuakeMap;
 }) => {
   return (
-    <ListItem alignItems="flex-start" style={props.style} button>
+    <ListItem alignItems="flex-start" button>
       <Grid container>
         <Grid item xs>
           <ListItemText
