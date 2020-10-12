@@ -115,7 +115,7 @@ function createWindow() {
   }
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   ipcMain.on("browse-exe", async () => {
     const exes = dialog.showOpenDialogSync(mainWindow, {
