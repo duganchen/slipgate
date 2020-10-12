@@ -7,7 +7,9 @@ import {
   TextField,
 } from "@material-ui/core";
 
-export const PackageInteraction = () => {
+import { QuakeMap } from "../types"
+
+export const PackageInteraction = (props: {map: QuakeMap}) => {
   return (
     <Container>
       <img

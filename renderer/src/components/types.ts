@@ -3,7 +3,6 @@ export interface QuakeMap {
   type: string;
   label: string;
   rating: string | null;
-  author: string;
   authors: string[];
   title: string;
   md5sum: string;
