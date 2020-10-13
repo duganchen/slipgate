@@ -9,18 +9,14 @@ export const Packages = () => {
   const [maps, setMaps] = useState<Maps>({});
   const [map, setMap] = useState<QuakeMap | null>(null);
 
-  useEffect(
-    () => {
-      console.log("fetching maps");
-      ipcRenderer.send("fetch-maps");
+  useEffect(() => {
+    console.log("fetching maps");
+    ipcRenderer.send("fetch-maps");
 
-      ipcRenderer.on("maps", (event: Event, arg: Maps) => {
-        setMaps(arg);
-      });
-    },
-    // This gets called in a loop if I put "maps" in the array. Not sure why.
-    []
-  );
+    ipcRenderer.on("maps", (event: Event, arg: Maps) => {
+      setMaps(arg);
+    });
+  }, []);
 
   return (
     <Box display="flex" overflow="hidden" flexGrow={1}>
