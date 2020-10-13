@@ -22,8 +22,6 @@ export const Packages = () => {
     []
   );
 
-  console.log(`map is ${map}`);
-
   return (
     <Box display="flex" overflow="hidden" flexGrow={1}>
       <Box flexGrow={1} flexBasis="50%" flexShrink={0} overflow="auto">
