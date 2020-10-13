@@ -7,7 +7,7 @@ export const PackageList = (props: {
   setMap: React.Dispatch<React.SetStateAction<QuakeMap | null>>;
 }) => {
   const packages = props.maps.map((map) => (
-    <PackageItem key={map.id} map={map} setMap={setMap} />
+    <PackageItem key={map.id} map={map} setMap={props.setMap} />
   ));
 
   return <>{packages}</>;

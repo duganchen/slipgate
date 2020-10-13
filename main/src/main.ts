@@ -165,7 +165,13 @@ function createWindow() {
 
 ipcMain.on("fetch-configuration", async (event) => {
   const engineConfigurationVersion = 1;
-  const confFile = `${app.getPath("cache")}/slipgate/engine.json`;
+  const confFile = `${app.getPath("appData")}/slipgate/engine.json`;
+
+  try {
+    await fs.access(confFile);
+  } catch {
+    return;
+  }
 
   // TODO: Add error handling after testing some cases.
   const confBuffer = await fs.readFile(confFile);
