@@ -21,7 +21,7 @@ export const Packages = () => {
   return (
     <Box display="flex" overflow="hidden" flexGrow={1}>
       <Box flexGrow={1} flexBasis="50%" flexShrink={0} overflow="auto">
-        <PackageList maps={Object.values(maps)} setMap={setMap} />
+        <PackageList maps={Object.values(maps)}/>
       </Box>
       <Box flexGrow={1} overflow="auto">
         {<PackageInteraction map={map as QuakeMap} />}

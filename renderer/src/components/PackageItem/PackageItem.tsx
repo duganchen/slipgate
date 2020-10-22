@@ -4,15 +4,11 @@ import { QuakeMap } from "../types";
 
 export const PackageItem = (props: {
   map: QuakeMap;
-  setMap: React.Dispatch<React.SetStateAction<QuakeMap | null>>;
 }) => {
   return (
     <ListItem
       alignItems="flex-start"
       button
-      onClick={() => {
-        props.setMap(props.map);
-      }}
     >
       <Grid container>
         <Grid item xs>
