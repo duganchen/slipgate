@@ -2,13 +2,21 @@ import React from "react";
 import PackageItem from "../PackageItem";
 import { QuakeMap } from "../types";
 
-export const PackageList = (props: {
+export class PackageList extends React.Component<{
   maps: QuakeMap[];
   setMap: React.Dispatch<React.SetStateAction<QuakeMap | null>>;
-}) => {
-  const packages = props.maps.map((map) => (
-    <PackageItem key={map.id} map={map} setMap={props.setMap} />
-  ));
+}> {
+  render() {
+    const packages = this.props.maps.map((map: QuakeMap) => (
+      <PackageItem key={map.id} map={map} setMap={this.props.setMap} />
+    ));
+    return <>{packages}</>;
+  }
 
-  return <>{packages}</>;
-};
+  shouldComponentUpdate(nextProps: {
+    maps: QuakeMap[];
+    setMap: React.Dispatch<React.SetStateAction<QuakeMap | null>>;
+  }) {
+    return this.props.maps.length !== nextProps.maps.length;
+  }
+}
