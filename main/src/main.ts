@@ -70,7 +70,7 @@ ipcMain.on("fetch-maps", async (event, arg) => {
   const maps = parseDB(xml, version);
 
   await fs.writeFile(dbFile, JSON.stringify(maps));
-  event.reply("maps", maps);
+  event.reply("maps", maps.maps);
 });
 
 function createWindow() {
@@ -95,7 +95,7 @@ function createWindow() {
   }
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   ipcMain.on("browse-exe", async () => {
     const exes = dialog.showOpenDialogSync(mainWindow, {
