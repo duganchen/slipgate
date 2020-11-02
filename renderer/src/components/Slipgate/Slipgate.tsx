@@ -39,7 +39,7 @@ export const Slipgate = () => {
 
     ipcRenderer.on(
       "configuration",
-      (event, arg: { exe: string; basedir: string }) => {
+      (event: any, arg: { exe: string; basedir: string }) => {
         setExe(arg.exe);
         setBasedir(arg.basedir);
       }
