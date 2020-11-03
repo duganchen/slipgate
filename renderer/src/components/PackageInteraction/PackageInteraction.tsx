@@ -10,9 +10,8 @@ import {
 import { QuakeMap } from "../types"
 
 export const PackageInteraction = (props: { map: QuakeMap }) => {
-  if (!props.map) {
-    return <div />
-  }
+
+  const startMaps = props.map.startmap.map(startMap => <MenuItem key={startMap}>{startMap}</MenuItem>);
 
   return (
     <Container>
@@ -25,10 +24,9 @@ export const PackageInteraction = (props: { map: QuakeMap }) => {
       <div dangerouslySetInnerHTML={{ __html: props.map.description }}/>
 
       <Select>
-        <MenuItem>map01</MenuItem>
+        {startMaps}
       </Select>
       <Button>Launch!</Button>
-      <TextField inputProps={{ readOnly: true }}></TextField>
     </Container>
   );
 };
