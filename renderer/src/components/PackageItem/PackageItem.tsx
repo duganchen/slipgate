@@ -4,7 +4,7 @@ import { QuakeMap } from "../types";
 
 export const PackageItem = (props: {
   map: QuakeMap;
-  setMap: React.Dispatch<React.SetStateAction<QuakeMap | null>>;
+  setMap: React.Dispatch<React.SetStateAction<QuakeMap>>;
 }) => {
   return (
     <ListItem

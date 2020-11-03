@@ -4,7 +4,7 @@ import { QuakeMap } from "../types";
 
 export class PackageList extends React.Component<{
   maps: QuakeMap[];
-  setMap: React.Dispatch<React.SetStateAction<QuakeMap | null>>;
+  setMap: React.Dispatch<React.SetStateAction<QuakeMap>>;
 }> {
   render() {
     const packages = this.props.maps.map((map: QuakeMap) => (
@@ -15,7 +15,7 @@ export class PackageList extends React.Component<{
 
   shouldComponentUpdate(nextProps: {
     maps: QuakeMap[];
-    setMap: React.Dispatch<React.SetStateAction<QuakeMap | null>>;
+    setMap: React.Dispatch<React.SetStateAction<QuakeMap>>;
   }) {
     return this.props.maps.length !== nextProps.maps.length;
   }

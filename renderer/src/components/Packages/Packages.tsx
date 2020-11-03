@@ -7,7 +7,23 @@ const { ipcRenderer } = window.require("electron");
 
 export const Packages = () => {
   const [maps, setMaps] = useState<Maps>({});
-  const [map, setMap] = useState<QuakeMap | null>(null);
+  const [map, setMap] = useState<QuakeMap>({
+    id: "",
+    type: "",
+    label: "",
+    rating: "",
+    authors: [],
+    title: "",
+    md5sum: "",
+    size: 0,
+    date: new Date(),
+    description: "",
+    zipbasedir: "",
+    commandline: "",
+    startmap: [],
+    requirements: [],
+    secondary: ""
+  });
 
   useEffect(() => {
     console.log("fetching maps");
