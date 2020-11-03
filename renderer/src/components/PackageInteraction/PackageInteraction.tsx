@@ -13,7 +13,7 @@ export const PackageInteraction = (props: {map: QuakeMap}) => {
   return (
     <Container>
       <img
-        src="https://www.quaddicted.com/reviews/screenshots/mhsp01_thumb.jpg"
+        src={props.map && `https://www.quaddicted.com/reviews/screenshots/${props.map.id}_thumb.jpg`}
         width="500"
         height="375"
         alt="Screenshot of mhsp01"
