@@ -9,30 +9,21 @@ import {
 
 import { QuakeMap } from "../types"
 
-export const PackageInteraction = (props: {map: QuakeMap}) => {
+export const PackageInteraction = (props: { map: QuakeMap }) => {
+  if (!props.map) {
+    return <div />
+  }
+
   return (
     <Container>
       <img
-        src={props.map && `https://www.quaddicted.com/reviews/screenshots/${props.map.id}_thumb.jpg`}
+        src={`https://www.quaddicted.com/reviews/screenshots/${props.map.id}_thumb.jpg`}
         width="500"
         height="375"
-        alt="Screenshot of mhsp01"
+        alt={`Screenshot of ${props.map.id}`}
       />
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Sed blandit libero
-        volutpat sed cras ornare arcu dui vivamus. Tristique sollicitudin nibh
-        sit amet commodo nulla facilisi nullam. Purus faucibus ornare
-        suspendisse sed nisi lacus sed viverra tellus. Condimentum vitae sapien
-        pellentesque habitant morbi tristique senectus et. Ligula ullamcorper
-        malesuada proin libero nunc. Malesuada bibendum arcu vitae elementum
-        curabitur. At lectus urna duis convallis convallis. Ultricies mi eget
-        mauris pharetra. Ante metus dictum at tempor commodo. Tincidunt dui ut
-        ornare lectus sit amet est placerat. Morbi tristique senectus et netus
-        et malesuada. Auctor augue mauris augue neque gravida in fermentum et.
-        Quis risus sed vulputate odio ut enim blandit volutpat maecenas. Nunc
-        congue nisi vitae suscipit tellus mauris.
-      </p>
+      <div dangerouslySetInnerHTML={{ __html: props.map.description }}/>
+
       <Select>
         <MenuItem>map01</MenuItem>
       </Select>
