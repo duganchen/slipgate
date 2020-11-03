@@ -22,11 +22,10 @@ export const Packages = () => {
     commandline: "",
     startmap: [],
     requirements: [],
-    secondary: ""
+    secondary: "",
   });
 
   useEffect(() => {
-    console.log("fetching maps");
     ipcRenderer.send("fetch-maps");
 
     ipcRenderer.on("maps", (event: Event, arg: Maps) => {

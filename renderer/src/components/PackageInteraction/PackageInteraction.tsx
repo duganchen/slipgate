@@ -40,13 +40,12 @@ export const PackageInteraction = (props: { map: QuakeMap }) => {
       <Select
         value={startMap}
         onChange={(event) => {
-          console.log(event.target.value);
           setStartMap(event.target.value as string);
         }}
       >
         {startMaps}
       </Select>
-      <Button>Launch!</Button>
+      <Button>Install!</Button>
     </Container>
   );
 };
