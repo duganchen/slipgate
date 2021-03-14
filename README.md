@@ -29,11 +29,3 @@ There's a different workflow if you also need to debug the main process. First, 
 When its port is open, use the "Electron: All" launch configuration in VSCode. You'll hit any breakpoint in the codebase.
 
 For more details, refer to the [Electron/React/TypeScript Boilerplate](https://github.com/duganchen/electron-react-typescript-boilerplate) that this is based on.
-
-### Building the Maps Schema
-
-Each type the Typescript definitions for the maps database change, you need to rebuild the JSON schema used to validate the database.
-
-    yarn workspace main build_schema
-
-Then commit the changes to reference/maps.schema.
