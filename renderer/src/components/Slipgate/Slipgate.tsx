@@ -20,6 +20,20 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import Packages from "../Packages";
 
+//github.com/electron/electron/issues/9920#issuecomment-447157348
+
+import { IpcRenderer } from "electron";
+
+declare global {
+  interface Window {
+    require: (
+      module: "electron"
+    ) => {
+      ipcRenderer: IpcRenderer;
+    };
+  }
+}
+
 const { ipcRenderer } = window.require("electron");
 
 export const Slipgate = () => {

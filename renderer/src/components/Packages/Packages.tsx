@@ -3,6 +3,21 @@ import { Box } from "@material-ui/core";
 import PackageInteraction from "../PackageInteraction";
 import PackageList from "../PackageList";
 import { Maps, QuakeMap } from "../types";
+
+// https://github.com/electron/electron/issues/9920#issuecomment-447157348
+
+import { IpcRenderer } from "electron";
+
+declare global {
+  interface Window {
+    require: (
+      module: "electron"
+    ) => {
+      ipcRenderer: IpcRenderer;
+    };
+  }
+}
+
 const { ipcRenderer } = window.require("electron");
 
 export const Packages = () => {
@@ -22,7 +37,7 @@ export const Packages = () => {
     commandline: "",
     startmap: [],
     requirements: [],
-    secondary: ""
+    secondary: "",
   });
 
   useEffect(() => {
